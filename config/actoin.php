@@ -32,4 +32,4 @@
         }
         
         mysqli_query($db,$sql);
-        mysqli_close($db);
+        mysqli_close($db); 
