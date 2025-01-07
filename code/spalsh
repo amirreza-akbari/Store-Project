@@ -1,0 +1,92 @@
+package com.example.healthcheckapp;
+
+import android.app.NotificationChannel; // برای ساخت کانال نوتیفیکیشن در نسخه‌های جدید اندروید
+import android.app.NotificationManager; // برای ارسال نوتیفیکیشن‌ها
+import android.content.Intent; // برای انتقال به صفحه دیگر
+import android.os.Build; // برای بررسی نسخه سیستم عامل اندروید
+import android.os.Bundle; // برای ذخیره وضعیت فعالیت‌ها
+import android.os.Handler; // برای اجرای کد با تأخیر
+import android.view.animation.Animation; // برای استفاده از انیمیشن‌ها
+import android.view.animation.AnimationUtils; // برای بارگذاری انیمیشن‌ها از منابع
+import android.widget.ImageView; // برای استفاده از ImageView (تصویر)
+import android.widget.Toast; // برای نمایش پیام‌های کوتاه به کاربر
+
+import androidx.appcompat.app.AppCompatActivity; // برای استفاده از AppCompatActivity
+import androidx.core.app.NotificationCompat; // برای ساخت نوتیفیکیشن‌های سفارشی
+import androidx.core.content.ContextCompat; // برای بررسی مجوزهای اپلیکیشن
+
+public class SplashActivity extends AppCompatActivity {
+
+    // ثابت برای شناسه کانال نوتیفیکیشن
+    private static final String CHANNEL_ID = "health_check_notification";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash); // تنظیم فایل XML مربوط به صفحه اسپلش
+
+        // بارگذاری انیمیشن fade برای لوگو
+        ImageView logo = findViewById(R.id.logo); // پیدا کردن ImageView برای لوگو
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in); // بارگذاری انیمیشن fade
+        logo.startAnimation(fadeIn); // اعمال انیمیشن به لوگو
+
+        // درخواست مجوز ارسال نوتیفیکیشن برای اندروید 13 و بالاتر
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // بررسی مجوز ارسال نوتیفیکیشن
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1); // درخواست مجوز
+            } else {
+                showNotification(); // نمایش نوتیفیکیشن در صورت داشتن مجوز
+            }
+        } else {
+            // برای نسخه‌های پایین‌تر از اندروید 13 نیازی به درخواست مجوز نیست
+            showNotification(); // نمایش نوتیفیکیشن
+        }
+
+        // بعد از 3 ثانیه به صفحه اصلی برو
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // انتقال به صفحه اصلی
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent); // شروع فعالیت جدید
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out); // انتقال با انیمیشن
+                finish(); // پایان فعالیت فعلی
+            }
+        }, 3000); // مدت زمان 3 ثانیه برای نمایش صفحه اسپلش
+    }
+
+    // تابع برای نمایش نوتیفیکیشن
+    private void showNotification() {
+        // ساخت کانال نوتیفیکیشن برای اندروید 8 به بالا
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID, // شناسه کانال
+                    "Health Check Notification", // نام کانال
+                    NotificationManager.IMPORTANCE_HIGH // اولویت نوتیفیکیشن
+            );
+            channel.setDescription("Notification for Health Check App"); // توضیح کانال نوتیفیکیشن
+
+            NotificationManager manager = getSystemService(NotificationManager.class); // دریافت سرویس NotificationManager
+            if (manager != null) {
+                manager.createNotificationChannel(channel); // ساخت کانال نوتیفیکیشن
+            }
+        }
+
+        // ساخت نوتیفیکیشن
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.logo) // آیکون کوچک برای نوتیفیکیشن
+                .setContentTitle("خوش آمدید!") // عنوان نوتیفیکیشن
+                .setContentText("از اینکه از اپلیکیشن ما استفاده می‌کنید، متشکریم.") // متن نوتیفیکیشن
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // اولویت بالا برای نوتیفیکیشن
+                .setAutoCancel(true); // بستن خودکار نوتیفیکیشن پس از لمس
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE); // دریافت سرویس ارسال نوتیفیکیشن
+        if (notificationManager != null) {
+            notificationManager.notify(1, builder.build()); // ارسال نوتیفیکیشن با شناسه 1
+        } else {
+            Toast.makeText(this, "خطا در ارسال نوتیفیکیشن", Toast.LENGTH_SHORT).show(); // نمایش خطا در صورت بروز مشکل
+        }
+    }
+}

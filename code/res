@@ -1,0 +1,60 @@
+package com.example.healthcheckapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ResultActivity extends AppCompatActivity {
+
+    private TextView tvResult;
+    private Button btnBackToMain, btnExit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        // اتصال ویوها به کد
+        tvResult = findViewById(R.id.tvResult);  // یافتن و متصل کردن TextView برای نمایش نتایج
+        btnBackToMain = findViewById(R.id.btnBackToMain);  // یافتن و متصل کردن دکمه بازگشت به صفحه اصلی
+        btnExit = findViewById(R.id.btnExit);  // یافتن و متصل کردن دکمه خروج
+
+        // دریافت اطلاعات از Intent که از صفحه قبلی ارسال شده است
+        String name = getIntent().getStringExtra("name");  // دریافت نام
+        String surname = getIntent().getStringExtra("surname");  // دریافت نام خانوادگی
+        String email = getIntent().getStringExtra("email");  // دریافت ایمیل
+        int score = getIntent().getIntExtra("totalScore", 0);  // دریافت نمره
+
+        // تعیین وضعیت نمره کاربر
+        String status = "";
+        if (score < 10) {
+            status = "وضعیت: اطلاعات شما نیاز به بهبود دارد";  // وضعیت برای نمره کمتر از 10
+        } else if (score >= 10 && score <= 15) {
+            status = "وضعیت: خوب، می‌توانید بهتر شوید";  // وضعیت برای نمره بین 10 تا 15
+        } else if (score > 15 && score < 20) {
+            status = "وضعیت: خیلی خوب، عالی پیش می‌روید";  // وضعیت برای نمره بین 15 تا 20
+        } else if (score == 20) {
+            status = "وضعیت: ممتاز، فوق‌العاده‌اید!";  // وضعیت برای نمره کامل (20)
+        }
+
+        // نمایش اطلاعات نمره و وضعیت
+        String result = "نام: " + name + "\n" + "\n" +
+                        "نام خانوادگی: " + surname + "\n" + "\n" +
+                        "ایمیل: " + email + "\n" + "\n" +
+                        "نمره: " + score + "\n" + "\n" +
+                        status;  // ترکیب اطلاعات و وضعیت نمره
+        tvResult.setText(result);  // نمایش نتیجه در TextView
+
+        // عملکرد دکمه بازگشت به صفحه اصلی
+        btnBackToMain.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultActivity.this, MainActivity.class);  // ایجاد Intent برای انتقال به صفحه اصلی
+            startActivity(intent);  // شروع فعالیت جدید
+            finish();  // بستن صفحه نتیجه
+        });
+
+        // عملکرد دکمه خروج
+        btnExit.setOnClickListener(v -> finishAffinity());  // بستن تمام فعالیت‌ها و خروج از برنامه
+    }
+}

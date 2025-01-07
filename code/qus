@@ -1,0 +1,177 @@
+package com.example.healthcheckapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class QuestionsActivity extends AppCompatActivity {
+
+    // متغیرهای UI
+    private TextView tvQuestionNumber, tvQuestion, tvTimer;  // برای نمایش شماره سوال، متن سوال و تایمر
+    private MaterialButton btnYes, btnNo;  // دکمه‌های بله و خیر
+    private int currentQuestion = 1;  // متغیر برای ذخیره شماره سوال جاری
+    private int totalScore = 0;  // متغیر برای ذخیره نمره کل
+    private CountDownTimer timer;  // تایمر شمارش معکوس برای زمان پاسخ به سوالات
+    private String[] questions = {  // آرایه‌ای از سوالات
+            "آیا شما تجربه استفاده از نرم‌افزار مدیریت پروژه دارید؟",
+            "آیا می‌توانید با نرم‌افزارهای اکسل و ورد کار کنید؟",
+            "آیا از سیستم عامل ویندوز استفاده کرده‌اید؟",
+            "آیا از نرم‌افزارهای گرافیکی مانند فتوشاپ استفاده کرده‌اید؟",
+            "آیا تجربه برنامه‌نویسی دارید؟",
+            "آیا از نرم‌افزارهای مدیریت دیتابیس مانند SQL استفاده کرده‌اید؟",
+            "آیا از برنامه‌های کاربردی موبایل مانند اینستاگرام یا تلگرام استفاده کرده‌اید؟",
+            "آیا با استفاده از نرم‌افزارهای تحلیلی داده مانند SPSS آشنا هستید؟",
+            "آیا از نرم‌افزارهای ویرایش ویدیو مانند پریمیر استفاده کرده‌اید؟",
+            "آیا با استفاده از نرم‌افزارهای امنیت سایبری مانند فایروال آشنا هستید؟"
+    };
+    private String[] answers = new String[10];  // آرایه‌ای برای ذخیره جواب‌های کاربر
+    private String name, surname, email;  // متغیرهای ذخیره‌سازی اطلاعات کاربر
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_questions);
+
+        // دریافت اطلاعات از صفحه قبلی (از صفحه ثبت‌نام)
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");  // دریافت نام کاربر
+        surname = intent.getStringExtra("surname");  // دریافت نام خانوادگی کاربر
+        email = intent.getStringExtra("email");  // دریافت ایمیل کاربر
+
+        // یافتن و متصل کردن عناصر UI از XML به متغیرهای جاوا
+        tvQuestionNumber = findViewById(R.id.tvQuestionNumber);  // شماره سوال
+        tvQuestion = findViewById(R.id.tvQuestion);  // متن سوال
+        tvTimer = findViewById(R.id.tvTimer);  // تایمر
+        btnYes = findViewById(R.id.btnYes);  // دکمه بله
+        btnNo = findViewById(R.id.btnNo);  // دکمه خیر
+
+        // نمایش اولین سوال
+        updateQuestion();
+
+        // تایمر 30 ثانیه‌ای برای پاسخ دادن به سوالات
+        timer = new CountDownTimer(30000, 1000) {  // 30000 میلی‌ثانیه (30 ثانیه)
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // هر بار که تایمر یک ثانیه کم می‌شود، زمان باقی‌مانده را نمایش می‌دهیم
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                tvTimer.setText(String.format("%02d:%02d", minutes, seconds));
+
+                // در 20 ثانیه آخر، رنگ تایمر به قرمز تغییر می‌کند
+                if (millisUntilFinished <= 20000) {
+                    tvTimer.setTextColor(getResources().getColor(R.color.red));
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                // وقتی زمان تمام شد
+                tvTimer.setText("زمان تمام شد!");  // نمایش پیام زمان تمام شده
+                submitAnswers();  // ارسال جواب‌ها
+            }
+        };
+        timer.start();  // شروع تایمر
+
+        // دکمه بله
+        btnYes.setOnClickListener(v -> {
+            answers[currentQuestion - 1] = "yes";  // ذخیره جواب بله
+            totalScore += 2;  // افزودن 2 امتیاز به نمره کل
+            goToNextQuestion();  // رفتن به سوال بعدی
+        });
+
+        // دکمه خیر
+        btnNo.setOnClickListener(v -> {
+            answers[currentQuestion - 1] = "no";  // ذخیره جواب خیر
+            goToNextQuestion();  // رفتن به سوال بعدی
+        });
+
+        // مدیریت دکمه بازگشت (نمی‌گذارد کاربر قبل از اتمام آزمون خارج شود)
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                new AlertDialog.Builder(QuestionsActivity.this)
+                        .setTitle("خطا")  // عنوان دیالوگ
+                        .setMessage("شما تا پایان آزمون حق خروج ندارید!")  // پیام دیالوگ
+                        .setCancelable(false)  // غیرقابل بستن
+                        .setIcon(R.drawable.logo)  // آیکن دیالوگ
+                        .setPositiveButton("باشه", (dialog, which) -> {
+                            // هیچ‌کاری انجام نمی‌شود
+                        })
+                        .show();
+            }
+        });
+    }
+
+    // تابع برای رفتن به سوال بعدی
+    private void goToNextQuestion() {
+        if (currentQuestion < questions.length) {  // اگر سوال بعدی وجود دارد
+            currentQuestion++;  // افزایش شماره سوال
+            updateQuestion();  // بروزرسانی سوال
+        } else {
+            submitAnswers();  // اگر تمام سوالات تمام شد، ارسال جواب‌ها
+        }
+    }
+
+    // تابع برای نمایش سوال و شماره آن
+    private void updateQuestion() {
+        tvQuestionNumber.setText("سوال " + currentQuestion);  // نمایش شماره سوال
+        tvQuestion.setText(questions[currentQuestion - 1]);  // نمایش متن سوال
+    }
+
+    // تابع برای ارسال جواب‌ها به سرور و رفتن به صفحه نتیجه
+    private void submitAnswers() {
+        if (timer != null) timer.cancel();  // توقف تایمر
+
+        String url = "https://b.mrbackend.ir/save_score.php";  // URL برای ارسال داده‌ها به سرور
+
+        // ایجاد درخواست ارسال داده به سرور
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    // اگر جواب سرور موفقیت‌آمیز بود
+                    if (response.equals("success")) {
+                        Toast.makeText(this, "نمره با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show();  // نمایش پیام موفقیت
+                        // انتقال به صفحه نتیجه
+                        Intent intent = new Intent(QuestionsActivity.this, ResultActivity.class);
+                        intent.putExtra("name", name);  // ارسال نام
+                        intent.putExtra("surname", surname);  // ارسال نام خانوادگی
+                        intent.putExtra("email", email);  // ارسال ایمیل
+                        intent.putExtra("totalScore", totalScore);  // ارسال نمره کل
+                        startActivity(intent);  // شروع فعالیت بعدی
+                        finish();  // بستن صفحه فعلی
+                    } else {
+                        Toast.makeText(this, "خطا در ذخیره نمره", Toast.LENGTH_SHORT).show();  // پیام خطا در ذخیره نمره
+                    }
+                },
+                error -> Toast.makeText(this, "خطا در اتصال به سرور", Toast.LENGTH_SHORT).show()) {  // پیام خطا در اتصال
+            @Override
+            protected Map<String, String> getParams() {
+                // پارامترهایی که به سرور ارسال می‌شود
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("surname", surname);
+                params.put("email", email);
+                params.put("score", String.valueOf(totalScore));  // ارسال نمره
+                return params;
+            }
+        };
+
+        // ارسال درخواست به سرور
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);  // اضافه کردن درخواست به صف
+    }
+}
