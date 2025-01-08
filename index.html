@@ -3,35 +3,43 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String[] items = {"موبایل", "لپ تاپ", "تلویزیون", "یخچال", "ماشین لباسشویی", "فر", "ماکروویو", "جاروبرقی", "تبلت", "دوربین"};
-        int[] codes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        
+        String[] names = new String[10];
+        int[] scores = new int[10];
+        int totalScore = 0;
+        int countAbove17 = 0;
+        int countBelow15 = 0;
 
+        // Get names and scores
         for (int i = 0; i < 10; i++) {
-            System.out.print("کد کالا را وارد کنید: ");
-            int code = scanner.nextInt();
+            System.out.print("Enter name " + (i + 1) + ": ");
+            names[i] = scanner.nextLine();
 
-            if (code == 0) {
-                System.out.println("خطا: کد نامعتبر است. برنامه بسته شد.");
-                return;
+            System.out.print("Enter score for " + names[i] + ": ");
+            scores[i] = scanner.nextInt();
+            scanner.nextLine(); // To consume the newline character after entering a number
+
+            // Display the length of the name
+            System.out.println("Length of " + names[i] + "'s name: " + names[i].length());
+
+            // Check the scores
+            if (scores[i] > 17) {
+                countAbove17++;
+                System.out.println(names[i] + " has a score above 17: " + scores[i]);
+            } else if (scores[i] < 15) {
+                countBelow15++;
+                System.out.println(names[i] + " has a score below 15: " + scores[i]);
             }
 
-            boolean found = false;
-            for (int j = 0; j < codes.length; j++) {
-                if (codes[j] == code) {
-                    found = true;
-                    if (code == 2) {
-                        System.out.println("این کالا موجود نمی‌باشد.");
-                    } else {
-                        System.out.println("نام کالا: " + items[j]);
-                    }
-                    break;
-                }
-            }
-
-            if (!found) {
-                System.out.println("کد وارد شده نامعتبر است.");
-            }
+            // Sum the scores for average calculation
+            totalScore += scores[i];
         }
+
+        // Calculate and display the average score
+        double averageScore = totalScore / 10.0;
+        System.out.println("\nAverage score: " + averageScore);
+        System.out.println("Number of scores above 17: " + countAbove17);
+        System.out.println("Number of scores below 15: " + countBelow15);
 
         scanner.close();
     }
