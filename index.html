@@ -51,3 +51,69 @@ public class Main {
         scanner.close();  // بستن شیء scanner پس از استفاده
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            import java.util.Scanner;  // وارد کردن کتابخانه اسکنر برای دریافت ورودی از کاربر
+
+public class Store {  // تعریف کلاس اصلی
+    public static void main(String[] args) {  // متد main برای شروع برنامه
+        Scanner scanner = new Scanner(System.in);  // ایجاد یک شیء از کلاس Scanner برای خواندن ورودی از کاربر
+        
+        // تعریف آرایه‌ای از نام‌های محصولات
+        String[] products = {"Smartphone", "Laptop", "TV", "Refrigerator", "Clothes Washer", "Fan", "Microwave", "Chair", "Tablet", "Camera"};
+        
+        // تعریف آرایه‌ای از کدهای محصولات که به ترتیب با محصولات مرتبط هستند
+        int[] codes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        // حلقه‌ای برای دریافت کد از کاربر به تعداد 10 بار
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Enter CODE: ");  // درخواست از کاربر برای وارد کردن کد محصول
+            int code = scanner.nextInt();  // دریافت ورودی از کاربر (کد محصول)
+
+            // اگر کد وارد شده صفر باشد، پیام خطا داده می‌شود و برنامه خاتمه می‌یابد
+            if (code == 0) {
+                System.out.println("ERROR");
+                return;  // با دستور return از برنامه خارج می‌شود
+            }
+
+            boolean found = false;  // متغیر پرچم برای بررسی یافتن کد محصول
+
+            // حلقه‌ای برای جستجو در آرایه کدها به دنبال تطابق با کد وارد شده
+            for (int j = 0; j < codes.length; j++) {
+                if (codes[j] == code) {  // اگر کد وارد شده با کد یکی از محصولات مطابقت داشته باشد
+                    found = true;  // تغییر مقدار پرچم به true به معنای پیدا شدن کد
+                    // بررسی اگر کد 2 وارد شده باشد (کد ویژه برای "محصول پیدا نشد")
+                    if (code == 2) {
+                        System.out.println("not found");  // پیام عدم پیدا شدن محصول با کد 2
+                    } else {
+                        // در غیر این صورت، نام محصول نمایش داده می‌شود
+                        System.out.println("Product Name: " + products[j]);
+                    }
+                    break;  // خروج از حلقه جستجو پس از یافتن کد
+                }
+            }
+
+            // اگر کد پیدا نشد، پرچم found برابر با false خواهد بود
+            if (!found) {
+                System.out.println("Code not found");  // نمایش پیام "کد پیدا نشد"
+            }
+        }
+
+        scanner.close();  // بستن شیء اسکنر پس از اتمام کار
+    }
+}
