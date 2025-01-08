@@ -1,47 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *{
-            font-family: dana;
-            direction: rtl; 
-            width: 280px; 
-        }
-        pre{ 
-            color: gray; 
-        }
-      
-        a{ 
-            background-color: green;
-        }
-    </style>
-</head>
-<body>
-    <img src="image/00.jpg" alt="">
-    <h1>گوشی موبایل سامسونگ مدل Galaxy S23 Ultra<br> دو سیم کارت ظرفیت <br>512 گیگابایت و رم 12 گیگابایت</h1>
-    <pre>سامسونگ Galaxy S23 Ultra 
-        به‌عنوان
-         گل سرسبد گوشی‌های هوشمند خانواده 
-         S23 با بهره بردن از مشخصات فنی قدرتمند معرفی شد. در نگاه اول از نظر 
-         طراحی در نظر گرفته شده، سامسونگ Galaxy
-          S23 Ultra به نسبت نسل قبلی یعنی Galax
-          y S22 Ultra تغییرات زیادی نداشته و تقریبا هر دو گوشی
-           از طراحی مشابهی بهره بردند.</pre>
+import java.util.HashMap;
+import java.util.Scanner;
 
-           <h2>ویژگی ها</h2>
-           
-           <ol style="list-style-type: square;">
-                <li>اندازه:20</li>
-                <li>رزولوشن عکس:20</li>
-                <li>باطری:20</li>
-           </ol>
+class Amir {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-            <h2>قیمت:</h2>
-            <del>250000</del>
-            <div>24</div>
-            <a href="#">خرید محصول</a>
-</body>
-</html>
+        // Create a HashMap to store product codes and their names
+        HashMap<String, String> products = new HashMap<>();
+        
+        // Add product codes and names to the HashMap
+        products.put("101", "Laptop");
+        products.put("102", "Mobile Phone");
+        products.put("103", "Television");
+        products.put("104", "Refrigerator");
+        products.put("105", "Washing Machine");
+        products.put("106", "Microwave");
+        products.put("107", "Camera");
+        products.put("108", "Hair Dryer");
+        products.put("109", "Juicer");
+        products.put("110", "Tablet");
+
+        // Ask the user to enter a product code
+        System.out.println("Please enter the product code:");
+
+        String productCode = scanner.nextLine();
+
+        // Check and display product name based on the entered code
+        if (productCode.equals("0")) {
+            // If user enters "0", show an error message and exit the program
+            System.out.println("Error! Zero entered. The program will terminate.");
+            System.exit(0);
+        } else if (products.containsKey(productCode)) {
+            // Display the product name if the code exists in the HashMap
+            System.out.println("Product name: " + products.get(productCode));
+        } else {
+            // If the product code is not found
+            System.out.println("Product code not found.");
+        }
+
+        scanner.close();
+    }
+}
