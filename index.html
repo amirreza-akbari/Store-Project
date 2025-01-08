@@ -1,1 +1,53 @@
+import java.util.Scanner;  // وارد کردن کلاس Scanner برای دریافت ورودی از کاربر
 
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);  // ایجاد شیء از کلاس Scanner برای دریافت ورودی از کاربر
+
+        String[] students = new String[3];  // آرایه برای ذخیره نام‌های دانش‌آموزان
+        int[] marks = new int[3];  // آرایه برای ذخیره نمرات دانش‌آموزان
+        int total = 0;  // متغیر برای ذخیره مجموع نمرات
+
+        String above17Names = "";  // متغیر برای ذخیره نام دانش‌آموزانی که نمره بالای 17 دارند
+        String below15Names = "";  // متغیر برای ذخیره نام دانش‌آموزانی که نمره کمتر از 15 دارند
+
+        // حلقه برای دریافت اطلاعات دانش‌آموزان
+        for (int i = 0; i < 3; i++) {
+            System.out.print("Enter student name " + (i + 1) + ": ");  // درخواست نام دانش‌آموز
+            students[i] = scanner.nextLine();  // ذخیره نام دانش‌آموز در آرایه students
+
+            System.out.print("Enter marks for " + students[i] + ": ");  // درخواست نمره برای دانش‌آموز
+            marks[i] = scanner.nextInt();  // ذخیره نمره دانش‌آموز در آرایه marks
+            scanner.nextLine();  // مصرف خط جدید برای جلوگیری از مشکل در خواندن ورودی‌های بعدی
+
+            total += marks[i];  // افزودن نمره به مجموع نمرات
+
+            // بررسی نمره و ذخیره نام‌های دانش‌آموزان با نمره بالای 17 یا کمتر از 15
+            if (marks[i] > 17) {
+                above17Names += students[i] + " ";  // اضافه کردن نام دانش‌آموز با نمره بالای 17
+            } else if (marks[i] < 15) {
+                below15Names += students[i] + " ";  // اضافه کردن نام دانش‌آموز با نمره کمتر از 15
+            }
+        }
+
+        double average = total / 3.0;  // محاسبه میانگین نمرات
+
+        // نمایش نتایج نهایی
+        System.out.println("\n----------------------------");
+        System.out.println("       Final Results       ");
+        System.out.println("----------------------------");
+        
+        // نمایش نمرات هر دانش‌آموز
+        for (int i = 0; i < 3; i++) {
+            System.out.println(students[i] + "'s marks: " + marks[i]);  // نمایش نام و نمره هر دانش‌آموز
+        }
+        
+        System.out.println("----------------------------");
+        System.out.println("Average marks: " + average);  // نمایش میانگین نمرات
+        System.out.println("Names of students with marks above 17: " + above17Names);  // نمایش نام دانش‌آموزانی که نمره بالای 17 دارند
+        System.out.println("Names of students with marks below 15: " + below15Names);  // نمایش نام دانش‌آموزانی که نمره کمتر از 15 دارند
+        System.out.println("----------------------------");
+
+        scanner.close();  // بستن شیء scanner پس از استفاده
+    }
+}
