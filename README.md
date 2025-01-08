@@ -5,38 +5,39 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // ایجاد یک HashMap برای ذخیره کد کالا و نام آن‌ها
-        HashMap<String, String> کالاها = new HashMap<>();
+        // Create a HashMap to store product codes and their names
+        HashMap<String, String> products = new HashMap<>();
         
-        // اضافه کردن کالاها به HashMap (کد کالا به همراه نام کالا)
-        کالاها.put("101", "لپ تاپ");
-        کالاها.put("102", "گوشی موبایل");
-        کالاها.put("103", "تلویزیون");
-        کالاها.put("104", "یخچال");
-        کالاها.put("105", "ماشین لباسشویی");
-        کالاها.put("106", "میکروویو");
-        کالاها.put("107", "دوربین عکاسی");
-        کالاها.put("108", "سشوار");
-        کالاها.put("109", "آبمیوه‌گیری");
-        کالاها.put("110", "تبلت");
+        // Add product codes and names to the HashMap
+        products.put("101", "Laptop");
+        products.put("102", "Mobile Phone");
+        products.put("103", "Television");
+        products.put("104", "Refrigerator");
+        products.put("105", "Washing Machine");
+        products.put("106", "Microwave");
+        products.put("107", "Camera");
+        products.put("108", "Hair Dryer");
+        products.put("109", "Juicer");
+        products.put("110", "Tablet");
 
-        // دریافت کد کالا از کاربر
-        System.out.println("لطفاً کد کالا را وارد کنید:");
+        // Ask the user to enter a product code
+        System.out.println("Please enter the product code:");
 
-        String کدکالا = scanner.nextLine();
+        String productCode = scanner.nextLine();
 
-        // بررسی و نمایش نام کالا براساس کد وارد شده
-        if (کالاها.containsKey(کدکالا)) {
-            System.out.println("نام کالا: " + کالاها.get(کدکالا));
-        } else if (کدکالا.equals("0")) {
-            // در صورتی که کاربر صفر وارد کند، پیغام خطا و خروج از برنامه
-            System.out.println("خطا! مقدار صفر وارد شد. برنامه خاتمه می‌یابد.");
+        // Check and display product name based on the entered code
+        if (productCode.equals("0")) {
+            // If user enters "0", show an error message and exit the program
+            System.out.println("Error! Zero entered. The program will terminate.");
             System.exit(0);
+        } else if (products.containsKey(productCode)) {
+            // Display the product name if the code exists in the HashMap
+            System.out.println("Product name: " + products.get(productCode));
         } else {
-            System.out.println("کد کالا یافت نشد.");
+            // If the product code is not found
+            System.out.println("Product code not found.");
         }
 
         scanner.close();
     }
 }
-
