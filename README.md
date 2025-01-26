@@ -1,2 +1,1 @@
 
-vless://8a2d01de-7bd6-0259-ede7-548aeddfc50f@dr.makevaslim.lat:443?mode=stream-up&security=reality&encryption=none&extra=%7B%27headers%27%3A%20%7B%7D%2C%20%27noGRPCHeader%27%3A%20True%2C%20%27xmux%27%3A%20%7B%27hKeepAlivePeriod%27%3A%2020%7D%7D&pbk=eFHvwzBbKV_RAcF6Z7Fs12ISNeqZC2YZhR8dYbSV80A&fp=chrome&type=xhttp&sni=k-design.ae&sid=2eaa4dc3631419f1#%F0%9F%87%A9%F0%9F%87%AA%20%7C%20%F0%9D%90%86%F0%9D%90%9E%F0%9D%90%AB%F0%9D%90%A6%F0%9D%90%9A%F0%9D%90%A7%F0%9D%90%B2%20%F0%9D%9F%B7
