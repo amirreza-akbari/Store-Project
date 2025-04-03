@@ -1,10 +1,1 @@
 
-vmess://eyJob3N0IjoiIiwicHMiOiJWMnJheV9jYXJ0ZWwiLCJuZXQiOiJ0Y3AiLCJwYXRoIjoiIiwicG9ydCI6IjIyMzI0IiwiaWQiOiIwNDYyMWJhZS1hYjM2LTExZWMtYjkwOS0wMjQyYWMxMjAwMDIiLCJhZGQiOiIxODYuMTkwLjIxNS45MyIsInNjeSI6ImF1dG8iLCJ0eXBlIjoibm9uZSJ9
-
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp1MTdUM0J2cFlhYWl1VzJj@api.namasha.co:443?type=tcp#@V2ray_cartel
-
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTptcHMzRndtRGpMcldhT1Zn@series-a2.samanehha.co:443?type=tcp#@V2ray_cartel
-
-vless://59860b15-b2d9-47f9-9b92-81bd1639fcc5@162.159.153.2:443?type=ws&host=5-55sfjslf.ifenxiang.cfd&path=/Telegram@V2ray_Alpha/?ed%3D2560&security=tls&fp=random&sni=5-55sfjslf.ifenxiang.cfd#@V2ray_cartel
-
-vmess://eyJ0eXBlIjoibm9uZSIsImFkZCI6IjE4Ni4xOTAuMjE1LjkzIiwiaG9zdCI6IiIsIm5ldCI6InRjcCIsInNjeSI6ImF1dG8iLCJwb3J0IjoiMjIzMjQiLCJwcyI6IiU0MHYycmF5X2NhcnRlbCIsInBhdGgiOiIiLCJpZCI6IjA0NjIxYmFlLWFiMzYtMTFlYy1iOTA5LTAyNDJhYzEyMDAwMiJ9
