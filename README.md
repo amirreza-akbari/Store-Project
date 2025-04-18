@@ -1,11 +1,3 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp1MTdUM0J2cFlhYWl1VzJj@series-a2-mec.varzesh360.co:443?type=tcp#@v2ray_cartel
-
-vless://c7d543af-1023-4b96-a698-187c190d3f4c@104.22.56.77:443?type=ws&host=nautica.foolvpn.me&path=/47.89.39.186-39251&security=tls&sni=nautica.foolvpn.me#@v2ray_cartel
-
-vless://59860b15-b2d9-47f9-9b92-81bd1639fcc5@104.18.41.190:8443?type=ws&host=5-55sfjslf.ifenxiang.cfd&path=/?ed%3D2560&security=tls&fp=random&sni=5-55sfjslf.ifenxiang.cfd#@v2ray_cartel
-
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@84.32.9.55:8880?type=grpc&mode=gun&security=none#Free%2061%20(@v2ray_cartel
-
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@84.32.9.31:8880?type=grpc&mode=gun&security=none#@v2ray_cartel
-
-vless://59860b15-b2d9-47f9-9b92-81bd1639fcc5@162.159.10.162:2086?type=ws&host=5-55sfjslf.ifenxiang.cfd&path=Telegram-@V2ray_Alpha&security=none#@v2ray_cartel
+vless://d57cd02e-8eba-4b0c-cca8-cccc4d192db6@www.speedtest.net:8443?path=%2Ftelegram----------------v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---------------v2ryNG01---v2ryNG01--v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01%3Fed%3D2048&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&host=mahdii.mihanfilmdownload.site&fp=chrome&type=ws&sni=mahdii.mihanfilmdownload.site#%40v2ryNG01.%20%D8%B3%D8%B1%D9%88%D8%B11%F0%9F%87%A9%F0%9F%87%AA%20%D8%AE%DB%8C%D9%84%DB%8C%20%D8%AC%D8%AF%DB%8C%D8%AF
+🇩🇪🇩🇪
+vless://078cb3f7-6c17-46ff-bedd-1d386e112292@www.speedtest.net:8880?path=%2FChannel----VPNCUSTOMIZE----VPNCUSTOMIZE----VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE%3Fed%3D2048&security=none&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&host=join.VPNCUSTOMIZE.iran.ir.arvancloud.ir.nett.ddns-ip.net.&fp=randomized&type=ws#%40v2ryNG01.%20%D8%B3%D8%B1%D9%882%F0%9F%87%A9%F0%9F%87%AA%20%20%D8%AC%D8%AF%DB%8C%D8%AF
