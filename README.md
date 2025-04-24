@@ -1,1 +1,10 @@
 
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkMzgzNzIyNGVkNDY1ZjAw@45.144.48.63:57456?type=tcp#@v2ray_cartel
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCb2cwRUxtTU05RFN4RGRR@85.210.120.237:443?type=tcp#@v2ray_cartel
+
+vmess://eyJhZGQiOiI5MS4xOTQuMTEuMTE4IiwidHlwZSI6Im5vbmUiLCJwYXRoIjoiIiwiaWQiOiJjMjNiMTI3Yi1hZjg3LTQzYmItYWExZS1jZTQyMzc0YTJiNTMiLCJob3N0IjoiIiwicG9ydCI6IjI3Njk5IiwibmV0IjoidGNwIiwicHMiOiIlNDB2MnJheV9jYXJ0ZWwiLCJzY3kiOiJhdXRvIn0=
+
+vmess://eyJpZCI6IjliMjMzNWFmLWYyNGMtNDgxMC05YzM0LTk1NTY4ZWJkNTc5ZCIsInBzIjoiJTQwdjJyYXlfY2FydGVsIiwiYWRkIjoiOTEuMTk0LjExLjE3OCIsInNjeSI6ImF1dG8iLCJwb3J0IjoiMjg5ODQiLCJuZXQiOiJ0Y3AiLCJwYXRoIjoiIiwidHlwZSI6Im5vbmUiLCJob3N0IjoiIn0=
+
+vless://df0680ca-e43c-498d-ed86-8e196eedd012@84.32.9.29:8880?type=grpc&mode=gun&security=none#@v2ray_cartel
