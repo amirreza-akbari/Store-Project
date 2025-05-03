@@ -2,7 +2,6 @@
 
 ```mermaid
 erDiagram
-    %% ------------------ موجودیت‌ها ------------------
     EmergencyPatient {
         INT patient_id PK
         STRING name
@@ -64,20 +63,11 @@ erDiagram
         INT patient_id FK
     }
 
-    %% ------------------ روابط ------------------
     EmergencyPatient ||--o{ EmergencyVisit : "has"
-    EmergencyVisit }o--|| Doctor : "examined_by"
-    EmergencyVisit }o--|| Nurse : "assisted_by"
-    Doctor ||--o{ EmergencyPrescription : "prescribes"
+    EmergencyVisit }o--|| Doctor : "by"
+    EmergencyVisit }o--|| Nurse : "assisted by"
+    Doctor ||--o{ EmergencyPrescription : "writes"
     EmergencyPatient ||--o{ EmergencyPrescription : "receives"
-    EmergencyPrescription ||--o{ PrescriptionDetail : "includes"
-    Medication ||--o{ PrescriptionDetail : "described_in"
+    EmergencyPrescription ||--o{ PrescriptionDetail : "contains"
+    Medication ||--o{ PrescriptionDetail : "used in"
     EmergencyPatient ||--|| DischargeStatus : "has"
-
-    %% ------------------ جدول مشخصات ------------------
-    note right of DischargeStatus
-      📝 مشخصات:
-      👤 دانشجو: علی رضایی
-      👨‍🏫 استاد: دکتر محمدی
-      📅 تاریخ: ۱۴۰۴/۰۲/۱۵
-    end note
