@@ -1,5 +1,4 @@
-## 🏥 نمودار ER بخش اورژانس بیمارستان
-
+## 🏥 Hospital Emergency Department ER Chart
 ```mermaid
 erDiagram
     EmergencyPatient {
