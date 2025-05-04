@@ -1,4 +1,4 @@
-## 🏥 Hospital Emergency Department ER Chart
+## 🏥 Hospital Emergency Department ER Chart 
 ```mermaid
 erDiagram
     EmergencyPatient {
