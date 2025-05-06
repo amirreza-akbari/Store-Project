@@ -1,3 +1,10 @@
+# 🏥 Hospital Emergency System - ERD
+
+This project represents the **Entity Relationship Diagram (ERD)** of a Hospital Emergency System. It includes entities such as Patients, Emergency Records, Ambulances, Receptionists, Contacts, and Educational data.
+
+## 📌 Diagram (ERD)
+
+```mermaid
 erDiagram
 
     PATIENT ||--o{ EMERGENCY : "has"
