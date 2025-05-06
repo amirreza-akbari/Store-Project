@@ -1,80 +1,85 @@
-```mermaid
 erDiagram
 
-    تماس {
-        int کد_تماس PK
-        datetime تاریخ
-        string ساعت
-        string وضعیت_پاسخ
+    PATIENT ||--o{ EMERGENCY : "has"
+    EMERGENCY ||--o{ AMBULANCE : "uses"
+    PATIENT ||--o{ PATIENT_COMPANION : "has"
+    PATIENT_COMPANION }o--|| CONTACT : "has"
+    EMERGENCY ||--o{ EDUCATION : "has"
+    EMERGENCY ||--o{ RECEPTION : "includes"
+    RECEPTION ||--|| RECEPTIONIST : "by"
+    RECEPTION ||--o{ CONTACT_LOG : "includes"
+    CONTACT_LOG }o--|| CONTACT : "relates to"
+
+    PATIENT {
+        int patient_id PK
+        string name
+        string surname
+        string father_name
+        string national_code
+        string gender
+        string address
     }
 
-    تماس_گیرنده {
-        int کد_تماس_گیرنده PK
-        string نام
-        string نام_خانوادگی
-        string جنسیت
-        string آدرس
-        string شماره
+    PATIENT_COMPANION {
+        int companion_id PK
+        string name
+        string surname
+        string relation
+        string phone
+        int patient_id FK
     }
 
-    ثبت_تماس {
-        int کد_ثبت_تماس PK
-        int کد_تماس FK
-        int کد_تماس_گیرنده FK
-        int کد_اپراتور FK
-        string نوع_تماس
+    CONTACT {
+        int contact_id PK
+        string name
+        string surname
+        string position
+        string address
+        string number
     }
 
-    اپراتور {
-        int کد_اپراتور PK
-        string نام
-        string نام_خانوادگی
-        string شماره_اپراتور
-        string شماره_تماس
+    EDUCATION {
+        int education_code PK
+        string type
+        string title
+        string degree
     }
 
-    آمبولانس {
-        int کد_آمبولانس PK
-        string راننده
-        string پلاک
-        string مدل
-        string وضعیت
+    EMERGENCY {
+        int emergency_id PK
+        int patient_id FK
+        int education_code FK
     }
 
-    بیمار {
-        int کد_بیمار PK
-        string نام
-        string نام_خانوادگی
-        string جنسیت
-        string شماره_ملی
-        string آدرس
-        string سن
+    RECEPTION {
+        int reception_id PK
+        int patient_id FK
+        int education_code FK
+        int receptionist_id FK
     }
 
-    پذیرش {
-        int کد_پذیرش PK
-        int کد_بیمار FK
-        int کد_آمبولانس FK
-        int کد_آموزشی FK
-        int کد_اپراتور FK
+    RECEPTIONIST {
+        int receptionist_id PK
+        string username
+        string password
+        string name
+        string surname
+        string phone
     }
 
-    همراه_بیمار {
-        int کد_همراه PK
-        int کد_بیمار FK
-        string نام
-        string نام_خانوادگی
-        string جنسیت
-        string نسبت
-        string شماره_تماس
+    CONTACT_LOG {
+        int contact_log_id PK
+        int receptionist_id FK
+        int contact_id FK
+        string date
+        string description
     }
 
-    تماس ||--o{ ثبت_تماس : دارد
-    تماس_گیرنده ||--o{ ثبت_تماس : دارد
-    اپراتور ||--o{ ثبت_تماس : دارد
-    آمبولانس ||--o{ پذیرش : می‌آید
-    بیمار ||--o{ پذیرش : پذیرش_می‌شود
-    آموزشی ||--o{ پذیرش : ارسال_می‌شود
-    اپراتور ||--o{ پذیرش : ثبت_می‌کند
-    بیمار ||--o{ همراه_بیمار : دارد
-```
+    AMBULANCE {
+        int ambulance_id PK
+        string plate
+        string brand
+        string type
+        string driver_name
+        int emergency_id FK
+    }
