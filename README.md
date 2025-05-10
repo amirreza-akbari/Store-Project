@@ -1,5 +1,5 @@
 # 🏥 Hospital Emergency System - ER
-  
+   
 This project represents the **Entity Relationship Diagram (ER)** of a Hospital Emergency System. It includes entities such as Patients, Emergency Records, Ambulances, Receptionists, Contacts, and Educational data.
 
 ## 📌 Diagram (ER)
