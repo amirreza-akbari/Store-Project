@@ -1,9 +1,7 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCb2cwRUxtTU05RFN4RGRR@admin.c3.webramz.co:443?type=tcp#@v2ray_cartel
-
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@78.47.141.72:8880?type=grpc&mode=gun&authority=/&security=none#3v2ray_cartel
-
-vmess://eyJob3N0IjoiIiwicG9ydCI6IjM2NzAwIiwic2N5IjoiYXV0byIsInBhdGgiOiIiLCJwcyI6IiU0MHYycmF5X2NhcnRlbCUyMC0xIiwibmV0IjoidGNwIiwidHlwZSI6Im5vbmUiLCJhZGQiOiIxMDEuOTkuOTEuMjM0IiwiaWQiOiIxMjdmZjQzYy0xODUxLTRiMmQtYmE4Yy02YWZiYTIxZWMwNGQifQ==
-
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp1MTdUM0J2cFlhYWl1VzJj@api.namasha.co:443?type=tcp#@v2ray_cartel
-
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@638820786839338668.dublin-shledrc-acbn.info:8880?type=grpc&mode=gun&security=none#@v2ray_cartel
+vless://260bab25-db69-4b2f-94c9-99472732c3d1@www.zula.ir:2087?path=%2Ftelegram----------------v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---------------v2ryNG01---v2ryNG01--v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01%3Fed%3D2048&security=tls&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&host=wimahdi.musics-fa.ru&fp=chrome&type=ws&sni=wimahdi.musics-fa.ru#%40v2ryNG01%20%D8%B3%D8%B1%D9%88%D8%B11%F0%9F%87%A9%F0%9F%87%AA%F0%9F%87%A9%F0%9F%87%AA
+2🇩🇪🇩🇪 ایرانسل و همراه اول👇
+vless://fd8bfeb3-f3e9-42a6-9e06-c47615ecc262@www.zula.ir:8880?path=%2FChannel----VPNCUSTOMIZE----VPNCUSTOMIZE----VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE%3Fed%3D2048&security=none&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&host=join.VPNCUSTOMIZE.iran.ir.arvancloud.ir.nett.ddns-ip.net.&fp=randomized&type=ws#%40v2ryNG01%20%D8%B3%D8%B1%D9%88%D8%B12%F0%9F%87%A9%F0%9F%87%AA%F0%9F%87%A9%F0%9F%87%AA%20%D8%A7%DB%8C%D8%B1%D8%A7%D9%86%D8%B3%D9%84%20%D9%88%20%D9%87%D9%85%D8%B1%D8%A7%D9%87%20%D8%A7%D9%88%D9%84
+2🇩🇪🇩🇪 همه اپراتور ها👇
+vless://fd8bfeb3-f3e9-42a6-9e06-c47615ecc262@151.101.64.155:80?path=%2FTelegram----VPNCUSTOMIZE----VPNCUSTOMIZE----VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE---VPNCUSTOMIZE%3Fed%3D2048&security=none&encryption=none&host=JOINBEDE-VPNCUSTOMIZE.IR&type=ws#%40v2ryNG01.%20%D8%B3%D8%B1%D9%88%D8%B12%F0%9F%87%A9%F0%9F%87%AA%F0%9F%87%A9%F0%9F%87%AA%20%20%D9%87%D9%85%D9%87%20%D8%A7%D9%BE%D8%B1%D8%A7%D8%AA%D9%88%D8%B1
+3🇦🇪🇦🇪🇦🇪
+vless://8e7c0ce1-419f-496f-a2a1-1d6930178e4d@wizahra.musics-fa.ru:8443?security=tls&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&fp=chrome&type=grpc&sni=wizahra.musics-fa.ru#%40v2ryNG01%20%D8%B3%D8%B1%D9%88%D8%B13%20%20%F0%9F%87%A6%F0%9F%87%AA%F0%9F%87%A6%F0%9F%87%AA%20%D8%A7%D9%85%D8%A7%D8%B1%D8%A7%D8%AA
