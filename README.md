@@ -1,1 +1,1 @@
-vless://0b193b9c-6ad3-41a2-83c0-d3de9b86b70e@frbn.musics-fa.ru:8443?path=%2Ftelegram----------------v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---------------v2ryNG01---v2ryNG01--v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01v2ryNG01----v2ryNG01----v2ryNG01---v2ryNG01---v2ryNG01---v2ryNG01%3Fed%3D2048&security=tls&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&host=frbn.musics-fa.ru&fp=chrome&type=ws&sni=frbn.musics-fa.ru#%40v2ryNG01%20%D8%B3%D8%B1%D9%88%D8%B11%F0%9F%87%A9%F0%9F%87%AA%F0%9F%87%A9%F0%9F%87%AA%D8%AC%D8%AF%DB%8C%D8%AF%D8%AA%D8%B1%DB%8C%D9%86
+
