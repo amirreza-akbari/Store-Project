@@ -38,5 +38,7 @@ Whether you're looking for a powerful graphics card or a sleek new keyboard, weâ
 ## ðŸš€ Getting Started
 
 ```bash
-git clone https://github.com/YourUsername/alfa-computer-store.git
+git clone https://github.com/amirreza-akbari/Store-Project.git
 cd alfa-computer-store
+
+https://store-project-git-main-amirreza-akbaris-projects.vercel.app
