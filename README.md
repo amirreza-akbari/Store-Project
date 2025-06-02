@@ -40,5 +40,9 @@ Whether you're looking for a powerful graphics card or a sleek new keyboard, we�
 ```bash
 git clone https://github.com/amirreza-akbari/Store-Project.git
 cd alfa-computer-store
+---
 
+## 🌐 Live Demo
+Click the link below to view the live version of the project:
+👉 View Live on Vercel
 https://store-project-git-main-amirreza-akbaris-projects.vercel.app
