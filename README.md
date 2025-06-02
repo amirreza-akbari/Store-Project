@@ -42,7 +42,7 @@ git clone https://github.com/amirreza-akbari/Store-Project.git
 cd alfa-computer-store
 ---
 
-## 🌐 Live Demo
+🌐 Live Demo
 Click the link below to view the live version of the project:
 👉 View Live on Vercel
 https://store-project-git-main-amirreza-akbaris-projects.vercel.app
