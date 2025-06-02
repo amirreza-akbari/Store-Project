@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت نام کاربر جدید</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <section class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card glass-effect">
+                <h2>ثبت نام کاربر جدید</h2>
+                <p>فرم زیر را پر کنید تا حساب کاربری ایجاد شود</p>
+                
+                <form class="auth-form">
+                    <div class="form-group-auth">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="نام کامل" required>
+                    </div>
+                    
+                    <div class="form-group-auth">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="ایمیل" required>
+                    </div>
+                    
+                    <div class="form-group-auth">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" placeholder="شماره تماس">
+                    </div>
+                    
+                    <div class="form-group-auth">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="رمز عبور" required>
+                    </div>
+                    
+                    <div class="form-group-auth">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="تکرار رمز عبور" required>
+                    </div>
+                    
+                    <div class="remember-me">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">با <a href="#" style="color: var(--primary-color);">قوانین و شرایط</a> موافقم</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">ثبت نام</button>
+                </form>
+                
+                <div class="login-register">
+                    <p>قبلا ثبت نام کرده اید؟ <a href="login.html">وارد شوید</a></p>
+                </div>
+                
+                <div class="social-login">
+                    <p>یا با استفاده از</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-google"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

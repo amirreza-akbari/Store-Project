@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به حساب کاربری</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <section class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card glass-effect">
+                <h2>ورود به حساب کاربری</h2>
+                <p>لطفا اطلاعات حساب خود را وارد نمایید</p>
+                
+                <form class="auth-form">
+                    <div class="form-group-auth">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="ایمیل" required>
+                    </div>
+                    
+                    <div class="form-group-auth">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="رمز عبور" required>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">مرا به خاطر بسپار</label>
+                        </div>
+                        <a href="#" class="forgot-password">رمز عبور را فراموش کرده اید؟</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">ورود</button>
+                </form>
+                
+                <div class="login-register">
+                    <p>حساب کاربری ندارید؟ <a href="register.html">ثبت نام کنید</a></p>
+                </div>
+                
+                <div class="social-login">
+                    <p>یا با استفاده از</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-google"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
