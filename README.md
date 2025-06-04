@@ -46,4 +46,4 @@ cd alfa-computer-store
 Click the link below to view the live version of the project:
 👉 View Live on Vercel
 https://store-project-git-main-amirreza-akbaris-projects.vercel.app
-https://gleaming-mooncake-db7c59.netlify.app/
+https://cute-bublanina-78f62b.netlify.app/
