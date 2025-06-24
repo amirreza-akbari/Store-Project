@@ -4,7 +4,7 @@ Welcome to **Alfa Computer**, where technology meets simplicity.
 Your one-stop online store for **computer parts, accessories, and software** — fast, secure, and modern. 🚀
 
 ---
-
+ 
 ## 🔍 About the Project
 
 **Alfa Computer** is a responsive and dynamic e-commerce website designed for tech lovers.  
