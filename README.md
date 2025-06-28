@@ -8,7 +8,7 @@ Your one-stop online store for **computer parts, accessories, and software** —
 ## 🔍 About the Project
 
 **Alfa Computer** is a responsive and dynamic e-commerce website designed for tech lovers.  
-Whether you're looking for a powerful graphics card or a sleek new keyboard, we’ve got you covered.
+Whether you're looking for a powerful graphics card or a sleek new keyboard, we’ve got you covered. 
 
 ---
 
