@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>چت‌بات هوش مصنوعی</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
+    #chat-box { background: #fff; border: 1px solid #ccc; padding: 15px; height: 400px; overflow-y: auto; }
+    .msg { margin: 5px 0; }
+    .user { color: blue; }
+    .bot { color: green; }
+    #input-box { margin-top: 10px; display: flex; }
+    #msg { flex: 1; padding: 10px; }
+    #send { padding: 10px; background: #28a745; color: #fff; border: none; }
+  </style>
+</head>
+<body>
+
+<h2>چت‌بات هوش مصنوعی</h2>
+<div id="chat-box"></div>
+
+<div id="input-box">
+  <input type="text" id="msg" placeholder="پیامت را بنویس..." />
+  <button id="send">ارسال</button>
+</div>
+
+<script>
+  const chatBox = document.getElementById('chat-box');
+  const msgInput = document.getElementById('msg');
+  const sendBtn = document.getElementById('send');
+
+  async function sendMessage() {
+    const userMsg = msgInput.value.trim();
+    if (!userMsg) return;
+
+    chatBox.innerHTML += `<div class="msg user">👤: ${userMsg}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+    msgInput.value = '';
+
+    try {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': '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',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-3.5-turbo",
+          messages: [{ role: "user", content: userMsg }]
+        })
+      });
+      const data = await res.json();
+      const botMsg = data.choices[0].message.content;
+      chatBox.innerHTML += `<div class="msg bot">🤖: ${botMsg}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (err) {
+      chatBox.innerHTML += `<div class="msg bot">⚠️ خطا در پاسخ‌دهی</div>`;
+    }
+  }
+
+  sendBtn.onclick = sendMessage;
+  msgInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</body>
+</html>
