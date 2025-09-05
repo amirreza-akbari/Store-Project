@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>داشبورد علمی</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="transition-colors duration-500 bg-[#07122a] text-white">
+
+  <!-- کنترل‌ها برای تم و زبان -->
+  <div class="fixed top-4 left-4 flex gap-2 z-50">
+    <button id="theme-toggle" class="btn-ghost px-3 py-1">🌙</button>
+    <button id="lang-toggle" class="btn-ghost px-3 py-1">EN</button>
+  </div>
+
+  <main class="p-6 flex gap-6 max-w-7xl mx-auto">
+
+    <!-- سایدبار -->
+    <aside class="w-64 flex-shrink-0 glass-card p-4 flex flex-col gap-4">
+      <h2 class="font-bold text-lg neon-title" data-text-fa="منو" data-text-en="Menu">منو</h2>
+      <button class="btn-ghost w-full text-left" data-text-fa="داشبورد" data-text-en="Dashboard">داشبورد</button>
+      <button class="btn-ghost w-full text-left" data-text-fa="کاربران" data-text-en="Users">کاربران</button>
+      <button class="btn-ghost w-full text-left" data-text-fa="تنظیمات" data-text-en="Settings">تنظیمات</button>
+      <button class="btn-ghost w-full text-left" data-text-fa="خروج" data-text-en="Logout">خروج</button>
+    </aside>
+
+    <!-- محتوای اصلی -->
+    <section class="flex-1 flex flex-col gap-6">
+
+      <!-- هدر -->
+      <header class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold neon-title" data-text-fa="داشبورد علمی" data-text-en="Scientific Dashboard">داشبورد علمی</h1>
+        <div class="flex gap-4 items-center">
+          <span data-text-fa="سلام، کاربر" data-text-en="Hello, User">سلام، کاربر</span>
+          <button class="btn-ghost" data-text-fa="خروج" data-text-en="Logout">خروج</button>
+        </div>
+      </header>
+
+      <!-- کارت‌های اطلاعات -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass-card p-6 flex flex-col gap-2">
+          <h3 class="font-semibold text-sky-300" data-text-fa="کاربران فعال" data-text-en="Active Users">کاربران فعال</h3>
+          <span class="text-3xl font-bold">124</span>
+        </div>
+        <div class="glass-card p-6 flex flex-col gap-2">
+          <h3 class="font-semibold text-sky-300" data-text-fa="آزمون‌های تکمیل شده" data-text-en="Completed Tests">آزمون‌های تکمیل شده</h3>
+          <span class="text-3xl font-bold">87</span>
+        </div>
+        <div class="glass-card p-6 flex flex-col gap-2">
+          <h3 class="font-semibold text-sky-300" data-text-fa="امتیاز متوسط" data-text-en="Average Score">امتیاز متوسط</h3>
+          <span class="text-3xl font-bold">76%</span>
+        </div>
+      </div>
+
+      <!-- بخش نمودار یا جزئیات -->
+      <div class="glass-card p-6 flex flex-col gap-4">
+        <h3 class="font-semibold text-sky-300" data-text-fa="نمودار پیشرفت" data-text-en="Progress Chart">نمودار پیشرفت</h3>
+        <div class="h-48 bg-[#0b1220] rounded-lg flex items-center justify-center text-sky-100/50" data-text-fa="اینجا نمودار قرار می‌گیرد" data-text-en="Chart placeholder">اینجا نمودار قرار می‌گیرد</div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // تم و زبان
+    const themeToggle = document.getElementById('theme-toggle');
+    const langToggle = document.getElementById('lang-toggle');
+    let darkMode = true;
+    let langFA = true;
+
+    themeToggle.addEventListener('click', ()=>{
+      darkMode = !darkMode;
+      document.body.classList.toggle('bg-[#07122a]', darkMode);
+      document.body.classList.toggle('bg-white', !darkMode);
+      document.body.classList.toggle('text-black', !darkMode);
+      themeToggle.textContent = darkMode ? '🌙' : '☀️';
+    });
+
+    langToggle.addEventListener('click', ()=>{
+      langFA = !langFA;
+      document.querySelectorAll('[data-text-fa]').forEach(el=>{
+        el.textContent = langFA ? el.getAttribute('data-text-fa') : el.getAttribute('data-text-en');
+      });
+      langToggle.textContent = langFA ? 'EN' : 'FA';
+      document.documentElement.lang = langFA ? 'fa' : 'en';
+      document.documentElement.dir = langFA ? 'rtl' : 'ltr';
+    });
+  </script>
+
+</body>
+</html>
