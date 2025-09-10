@@ -1,0 +1,11 @@
+{
+  "name": "my-chatbot",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "openai": "^4.9.0"
+  }
+}
