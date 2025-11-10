@@ -1,7 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+
+<style>
+  /* افکت محو شدن برای تغییر تصویر */
+  #arrow {
+    transition: opacity 2s; /* زمان تغییر = 2 ثانیه */
+  }
+</style>
+
+</head>
+<body>
+
 <p align="center">
 <a href="#" 
-   onmouseover="document.getElementById('arrow').src='2.jpg';" 
-   onmouseout="document.getElementById('arrow').src='1.jpg';">
+   onmouseover="fadeTo('2.jpg');"
+   onmouseout="fadeTo('1.jpg');">
+
    <img border="1" src="1.jpg" id="arrow" height="200" width="100">
+
 </a>
 </p>
+
+<script>
+function fadeTo(image){
+    let img = document.getElementById("arrow");
+    img.style.opacity = 0;   // محو شود
+    setTimeout(function(){
+        img.src = image;     // تغییر تصویر بعد از محو شدن
+        img.style.opacity = 1; // دوباره ظاهر شدن
+    }, 500); // نیم ثانیه قبل از تغییر (قابل تغییر)
+}
+</script>
+
+</body>
+</html>
