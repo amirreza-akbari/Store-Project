@@ -2,37 +2,23 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-
+<title>منوی پویا - تغییر تصویر با ماوس</title>
 <style>
-  /* افکت محو شدن برای تغییر تصویر */
-  #arrow {
-    transition: opacity 2s; /* زمان تغییر = 2 ثانیه */
+  body {
+    text-align: center;
+    margin-top: 50px;
   }
 </style>
-
 </head>
 <body>
 
 <p align="center">
-<a href="#" 
-   onmouseover="fadeTo('2.jpg');"
-   onmouseout="fadeTo('1.jpg');">
-
-   <img border="1" src="1.jpg" id="arrow" height="200" width="100">
-
-</a>
+  <a href="#" 
+     onmouseover="document.getElementById('arrow').src='2.jpg';"
+     onmouseout="document.getElementById('arrow').src='1.jpg';">
+    <img src="1.jpg" id="arrow" border="1" height="200" width="100">
+  </a>
 </p>
-
-<script>
-function fadeTo(image){
-    let img = document.getElementById("arrow");
-    img.style.opacity = 0;   // محو شود
-    setTimeout(function(){
-        img.src = image;     // تغییر تصویر بعد از محو شدن
-        img.style.opacity = 1; // دوباره ظاهر شدن
-    }, 500); // نیم ثانیه قبل از تغییر (قابل تغییر)
-}
-</script>
 
 </body>
 </html>
