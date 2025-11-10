@@ -1,1 +1,39 @@
 
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>جابجایی دو عکس</title>
+<style>
+  img {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h2>جابجایی دو عکس</h2>
+
+<img id="img1" src="pic1.jpg">
+<img id="img2" src="pic2.jpg">
+
+<br><br>
+
+<button onclick="swapImages()">جابجا کن</button>
+
+<script>
+function swapImages() {
+    let img1 = document.getElementById("img1");
+    let img2 = document.getElementById("img2");
+
+    let temp = img1.src;
+    img1.src = img2.src;
+    img2.src = temp;
+}
+</script>
+
+</body>
+</html>
+
