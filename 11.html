@@ -1,39 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>جابجایی دو عکس</title>
+<title>منوی پویا با تغییر تصویر</title>
+
 <style>
-  img {
-    width: 200px;
-    height: 200px;
-    margin: 10px;
+  #imageBox {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 15px;
+  }
+
+  #imageBox img {
+    width: 100%;
+    height: 100%;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
   }
 </style>
+
 </head>
 <body>
 
-<h2>جابجایی دو عکس</h2>
+<div id="imageBox">
+  <img id="img1" src="pic1.jpg">
+  <img id="img2" src="pic2.jpg" style="display:none;">
+</div>
 
-<img id="img1" src="pic1.jpg">
-<img id="img2" src="pic2.jpg">
-
-<br><br>
-
-<button onclick="swapImages()">جابجا کن</button>
+<a id="menuLink">لینک منو</a>
 
 <script>
-function swapImages() {
-    let img1 = document.getElementById("img1");
-    let img2 = document.getElementById("img2");
+let swapped = false; // برای جلوگیری از تکرار
 
-    let temp = img1.src;
-    img1.src = img2.src;
-    img2.src = temp;
+document.getElementById("menuLink").addEventListener("mouseenter", function() {
+  if (!swapped) {
+    changeImages();
+  }
+});
+
+document.getElementById("menuLink").addEventListener("mouseleave", function() {
+  if (!swapped) {
+    changeImages();
+    swapped = true; // فقط یک بار اجازه تغییر دهیم
+  }
+});
+
+function changeImages() {
+  let img1 = document.getElementById("img1");
+  let img2 = document.getElementById("img2");
+
+  if (img1.style.display === "none") {
+    img1.style.display = "block";
+    img2.style.display = "none";
+  } else {
+    img1.style.display = "none";
+    img2.style.display = "block";
+  }
 }
 </script>
 
 </body>
 </html>
-
