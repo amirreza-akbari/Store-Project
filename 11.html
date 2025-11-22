@@ -1,82 +1,14 @@
+-- ایندکس برای جستجوی سریع روی کدها
+CREATE INDEX IX_Students_StudentCode ON Students(StudentCode);
+CREATE INDEX IX_Professors_ProfessorCode ON Professors(ProfessorCode);
+CREATE INDEX IX_Courses_CourseCode ON Courses(CourseCode);
 
-/****** 1. ایجاد دیتابیس ******/
-IF EXISTS(SELECT * FROM sys.databases WHERE name = 'UniversityDB')
-BEGIN
-    ALTER DATABASE UniversityDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE UniversityDB;
-END
-CREATE DATABASE UniversityDB;
+-- View: نمایش اطلاعات عرضه‌ها همراه با نام درس و نام استاد و ظرفیت/تعداد ثبت‌نام
+CREATE VIEW vw_Offerings_Details AS
+SELECT o.OfferingID, c.CourseCode, c.CourseName, t.TermCode, p.ProfessorCode, p.Name AS ProfessorName,
+       o.Capacity, o.EnrolledCount
+FROM CourseOfferings o
+JOIN Courses c ON o.CourseID = c.CourseID
+JOIN Terms t ON o.TermID = t.TermID
+JOIN Professors p ON o.ProfessorID = p.ProfessorID;
 GO
-
-USE UniversityDB;
-GO
-
-/****** 2. جداول اصلی ******/
-/* جدول دانشجو */
-CREATE TABLE Students (
-    StudentID     BIGINT IDENTITY(100000,1) PRIMARY KEY, -- شماره دانشجویی خودکار
-    StudentCode   VARCHAR(20) NOT NULL UNIQUE, -- کد دانشجویی (مثلاً 991234)
-    FirstName     NVARCHAR(100) NOT NULL,
-    LastName      NVARCHAR(100) NOT NULL,
-    BirthDate     DATE NULL,
-    CreatedAt     DATETIME2 DEFAULT SYSUTCDATETIME()
-);
-GO
-
-/* جدول اساتید */
-CREATE TABLE Professors (
-    ProfessorID   INT IDENTITY(1,1) PRIMARY KEY,
-    ProfessorCode VARCHAR(20) NOT NULL UNIQUE, -- کد استاد
-    Name          NVARCHAR(200) NOT NULL,
-    Email         VARCHAR(200) NULL,
-    CreatedAt     DATETIME2 DEFAULT SYSUTCDATETIME()
-);
-GO
-
-/* جدول ترم ها */
-CREATE TABLE Terms (
-    TermID        INT IDENTITY(1,1) PRIMARY KEY,
-    TermCode      VARCHAR(20) NOT NULL UNIQUE, -- مثلاً 2025FALL
-    StartDate     DATE NOT NULL,
-    EndDate       DATE NOT NULL,
-    CONSTRAINT CHK_TermDates CHECK (EndDate >= StartDate)
-);
-GO
-
-/* جدول دروس (تعریف درسی کلی) */
-CREATE TABLE Courses (
-    CourseID      INT IDENTITY(1,1) PRIMARY KEY,
-    CourseCode    VARCHAR(20) NOT NULL UNIQUE, -- مثلاً CS101
-    CourseName    NVARCHAR(200) NOT NULL,
-    Credits       DECIMAL(3,1) DEFAULT 3.0
-);
-GO
-
-/* جدول عرضه درس در یک ترم (هر عرضه متعلق به یک استاد، ظرفیت دارد) */
-CREATE TABLE CourseOfferings (
-    OfferingID    INT IDENTITY(1,1) PRIMARY KEY,
-    CourseID      INT NOT NULL,
-    TermID        INT NOT NULL,
-    ProfessorID   INT NOT NULL,
-    Capacity      INT NOT NULL CHECK (Capacity > 0),
-    EnrolledCount INT NOT NULL DEFAULT 0, -- شمارش سریع (نگهداری توسط تراکنش‌ها)
-    CONSTRAINT UQ_Offering UNIQUE (CourseID, TermID, ProfessorID),
-    CONSTRAINT FK_Offering_Course FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),
-    CONSTRAINT FK_Offering_Term FOREIGN KEY (TermID) REFERENCES Terms(TermID),
-    CONSTRAINT FK_Offering_Professor FOREIGN KEY (ProfessorID) REFERENCES Professors(ProfessorID)
-);
-GO
-
-/* جدول ثبت‌نام دانشجو در یک عرضه درس */
-CREATE TABLE Enrollments (
-    EnrollmentID  BIGINT IDENTITY(1,1) PRIMARY KEY,
-    OfferingID    INT NOT NULL,
-    StudentID     BIGINT NOT NULL,
-    RegisteredAt  DATETIME2 DEFAULT SYSUTCDATETIME(),
-    Grade         DECIMAL(5,2) NULL,
-    CONSTRAINT UQ_Enrollment UNIQUE (OfferingID, StudentID), -- جلوگیری از ثبت‌نام تکراری
-    CONSTRAINT FK_Enroll_Offering FOREIGN KEY (OfferingID) REFERENCES CourseOfferings(OfferingID),
-    CONSTRAINT FK_Enroll_Student FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
-);
-GO
-
