@@ -1,31 +1,3 @@
-INSERT INTO Students (FullName)
-VALUES 
-(N'امیررضا اکبری'),
-(N'حمیدرضا پور محی‌آبادی'),
-(N'علی رضایی'),
-(N'علیررضااحمدی');
-
-INSERT INTO Teachers (TeacherName)
-VALUES
-(N'مهندس اسلامیت'),
-(N'مهندس کریمی'),
-(N'دکتر فرجی');
-
-INSERT INTO Terms (StartDate, EndDate)
-VALUES
-('2025-02-01', '2025-06-01'),
-('2025-09-01', '2026-01-10');
-
-INSERT INTO Courses (CourseName, TermID, TeacherID, Capacity)
-VALUES
-(N'برنامه‌نویسی پیشرفته', 1, 1, 40),
-(N'پایگاه داده', 1, 2, 35),
-(N'ساختمان داده', 2, 1, 45),
-(N'شبکه‌های کامپیوتری', 2, 3, 30);
-
-INSERT INTO Registrations (StudentID, CourseID)
-VALUES
-(1, 1),
-(1, 2),
-(2, 1),
-(3, 3);
+UPDATE Students
+SET FullName = N'امیررضا اکبری جدید'
+WHERE StudentID = 1;
