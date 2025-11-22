@@ -1,14 +1,84 @@
--- ایندکس برای جستجوی سریع روی کدها
-CREATE INDEX IX_Students_StudentCode ON Students(StudentCode);
-CREATE INDEX IX_Professors_ProfessorCode ON Professors(ProfessorCode);
-CREATE INDEX IX_Courses_CourseCode ON Courses(CourseCode);
+-------------------------------
+-- ایجاد دیتابیس
+-------------------------------
+CREATE DATABASE StudentRegistrationDB;
+GO
 
--- View: نمایش اطلاعات عرضه‌ها همراه با نام درس و نام استاد و ظرفیت/تعداد ثبت‌نام
-CREATE VIEW vw_Offerings_Details AS
-SELECT o.OfferingID, c.CourseCode, c.CourseName, t.TermCode, p.ProfessorCode, p.Name AS ProfessorName,
-       o.Capacity, o.EnrolledCount
-FROM CourseOfferings o
-JOIN Courses c ON o.CourseID = c.CourseID
-JOIN Terms t ON o.TermID = t.TermID
-JOIN Professors p ON o.ProfessorID = p.ProfessorID;
+USE StudentRegistrationDB;
+GO
+
+-------------------------------
+-- جدول دانشجو
+-------------------------------
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY IDENTITY(1,1),
+    FullName NVARCHAR(100) NOT NULL
+);
+GO
+
+-------------------------------
+-- جدول استاد
+-------------------------------
+CREATE TABLE Teachers (
+    TeacherID INT PRIMARY KEY IDENTITY(1,1),
+    TeacherName NVARCHAR(100) NOT NULL
+);
+GO
+
+-------------------------------
+-- جدول ترم
+-------------------------------
+CREATE TABLE Terms (
+    TermID INT PRIMARY KEY IDENTITY(1,1),
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    CONSTRAINT CK_Term_Date CHECK (StartDate < EndDate)
+);
+GO
+
+-------------------------------
+-- جدول درس
+-------------------------------
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY IDENTITY(1,1),
+    CourseName NVARCHAR(100) NOT NULL,
+    TermID INT NOT NULL,
+    TeacherID INT NOT NULL,
+    Capacity INT NOT NULL CHECK (Capacity > 0),
+
+    CONSTRAINT FK_Course_Term FOREIGN KEY (TermID)
+        REFERENCES Terms(TermID),
+
+    CONSTRAINT FK_Course_Teacher FOREIGN KEY (TeacherID)
+        REFERENCES Teachers(TeacherID)
+);
+GO
+
+-------------------------------
+-- جدول ثبت‌نام
+-------------------------------
+CREATE TABLE Registrations (
+    RegistrationID INT PRIMARY KEY IDENTITY(1,1),
+    StudentID INT NOT NULL,
+    CourseID INT NOT NULL,
+
+    CONSTRAINT FK_Reg_Student FOREIGN KEY (StudentID)
+        REFERENCES Students(StudentID),
+
+    CONSTRAINT FK_Reg_Course FOREIGN KEY (CourseID)
+        REFERENCES Courses(CourseID),
+
+    -- جلوگیری از ثبت‌نام تکراری یک دانشجو در یک درس
+    CONSTRAINT UQ_Student_Course UNIQUE(StudentID, CourseID)
+);
+GO
+
+-------------------------------
+-- ایندکس‌ها برای سرعت بیشتر
+-------------------------------
+CREATE INDEX IDX_Student_Name ON Students(FullName);
+CREATE INDEX IDX_Teacher_Name ON Teachers(TeacherName);
+CREATE INDEX IDX_Course_Name ON Courses(CourseName);
+CREATE INDEX IDX_Reg_Student ON Registrations(StudentID);
+CREATE INDEX IDX_Reg_Course ON Registrations(CourseID);
 GO
