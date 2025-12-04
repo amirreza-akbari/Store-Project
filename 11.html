@@ -389,130 +389,84 @@
     </div>
 
     <?php
-    // شروع اعتبارسنجی PHP
     $errors = [];
     $success = false;
     $formData = [];
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // 1. اعتبارسنجی نام و نام خانوادگی
         $fullname = trim($_POST['fullname'] ?? '');
         if (empty($fullname)) {
             $errors['fullname'] = "نام و نام خانوادگی الزامی است.";
-        } elseif (!preg_match("/^[\p{L}\s]+$/u", $fullname)) {
-            $errors['fullname'] = "نام باید فقط شامل حروف فارسی یا انگلیسی باشد.";
         } else {
             $formData['fullname'] = htmlspecialchars($fullname);
         }
 
-        // 2. اعتبارسنجی جنسیت
         $gender = $_POST['gender'] ?? '';
         if (empty($gender)) {
             $errors['gender'] = "انتخاب جنسیت الزامی است.";
-        } elseif (!in_array($gender, ['مرد', 'زن'])) {
-            $errors['gender'] = "جنسیت انتخاب شده نامعتبر است.";
         } else {
             $formData['gender'] = $gender;
         }
 
-        // 3. اعتبارسنجی نوع محصول
         $productType = $_POST['productType'] ?? '';
         if (empty($productType)) {
             $errors['productType'] = "انتخاب نوع محصول الزامی است.";
-        } elseif (!in_array($productType, ['لوازم جانبی', 'پک نرم افزاری'])) {
-            $errors['productType'] = "نوع محصول انتخاب شده نامعتبر است.";
         } else {
             $formData['productType'] = $productType;
         }
 
-        // 4. اعتبارسنجی نام محصول
         $productName = trim($_POST['productName'] ?? '');
         if (empty($productName)) {
             $errors['productName'] = "نام محصول الزامی است.";
-        } elseif (strlen($productName) < 3) {
-            $errors['productName'] = "نام محصول باید حداقل 3 کاراکتر باشد.";
         } else {
             $formData['productName'] = htmlspecialchars($productName);
         }
 
-        // 5. اعتبارسنجی تعداد
         $quantity = $_POST['quantity'] ?? '';
         if (empty($quantity)) {
             $errors['quantity'] = "تعداد الزامی است.";
         } elseif (!is_numeric($quantity) || $quantity <= 0) {
             $errors['quantity'] = "تعداد باید عدد مثبت باشد.";
-        } elseif ($quantity > 1000) {
-            $errors['quantity'] = "تعداد نباید بیشتر از 1000 باشد.";
         } else {
             $formData['quantity'] = (int)$quantity;
         }
 
-        // 6. اعتبارسنجی گزینه‌های اضافی
         $options = $_POST['options'] ?? [];
         $formData['options'] = is_array($options) ? $options : [];
 
-        // 7. اعتبارسنجی روش پرداخت
         $paymentMethod = $_POST['paymentMethod'] ?? '';
-        $validPaymentMethods = ['نقدی', 'کارتخوان', 'آنلاین', 'چکی', 'اقساطی'];
         if (empty($paymentMethod)) {
             $errors['paymentMethod'] = "انتخاب روش پرداخت الزامی است.";
-        } elseif (!in_array($paymentMethod, $validPaymentMethods)) {
-            $errors['paymentMethod'] = "روش پرداخت انتخاب شده نامعتبر است.";
         } else {
             $formData['paymentMethod'] = $paymentMethod;
         }
 
-        // 8. اعتبارسنجی توضیحات
         $description = trim($_POST['description'] ?? '');
         if (!empty($description)) {
-            if (strlen($description) > 500) {
-                $errors['description'] = "توضیحات نباید بیشتر از 500 کاراکتر باشد.";
-            } else {
-                $formData['description'] = htmlspecialchars($description);
-            }
+            $formData['description'] = htmlspecialchars($description);
         }
 
-        // 9. اعتبارسنجی عکس پرسنلی
         if (isset($_FILES['personalPhoto']) && $_FILES['personalPhoto']['error'] !== UPLOAD_ERR_NO_FILE) {
             $file = $_FILES['personalPhoto'];
             
-            // بررسی خطاهای آپلود
             if ($file['error'] !== UPLOAD_ERR_OK) {
-                switch ($file['error']) {
-                    case UPLOAD_ERR_INI_SIZE:
-                    case UPLOAD_ERR_FORM_SIZE:
-                        $errors['personalPhoto'] = "حجم فایل بسیار بزرگ است.";
-                        break;
-                    case UPLOAD_ERR_PARTIAL:
-                        $errors['personalPhoto'] = "فایل به طور کامل آپلود نشد.";
-                        break;
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $errors['personalPhoto'] = "پوشه موقت وجود ندارد.";
-                        break;
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $errors['personalPhoto'] = "نوشتن فایل بر روی دیسک ناموفق بود.";
-                        break;
-                    case UPLOAD_ERR_EXTENSION:
-                        $errors['personalPhoto'] = "آپلود فایل توسط اکستنشن متوقف شد.";
-                        break;
-                    default:
-                        $errors['personalPhoto'] = "خطای ناشناخته در آپلود فایل.";
+                if ($file['error'] == UPLOAD_ERR_INI_SIZE || $file['error'] == UPLOAD_ERR_FORM_SIZE) {
+                    $errors['personalPhoto'] = "حجم فایل بسیار بزرگ است.";
+                } else {
+                    $errors['personalPhoto'] = "خطا در آپلود فایل.";
                 }
             } else {
-                // بررسی حجم فایل (حداکثر 200 کیلوبایت)
-                $maxFileSize = 200 * 1024; // 200KB
+                $maxFileSize = 200 * 1024;
                 if ($file['size'] > $maxFileSize) {
-                    $errors['personalPhoto'] = "حجم فایل نباید بیشتر از 200 کیلوبایت باشد. (حجم فعلی: " . round($file['size'] / 1024, 2) . "KB)";
+                    $errors['personalPhoto'] = "حجم فایل نباید بیشتر از 200 کیلوبایت باشد.";
                 }
                 
-                // بررسی نوع فایل
                 $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
                 $fileType = mime_content_type($file['tmp_name']);
                 if (!in_array($fileType, $allowedTypes)) {
-                    $errors['personalPhoto'] = "فقط فایل‌های تصویری با فرمت JPEG, PNG, JPG, GIF مجاز هستند.";
+                    $errors['personalPhoto'] = "فقط فایل‌های تصویری مجاز هستند.";
                 }
                 
-                // اگر خطایی نبود، فایل را ذخیره کن
                 if (!isset($errors['personalPhoto'])) {
                     $uploadDir = 'uploads/';
                     if (!is_dir($uploadDir)) {
@@ -529,83 +483,19 @@
                     }
                 }
             }
-        } else {
-            $formData['personalPhoto'] = null;
         }
 
-        // اگر هیچ خطایی وجود نداشت
         if (empty($errors)) {
-            // اتصال به دیتابیس MySQL
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "order_system";
-            
-            try {
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                $conn->set_charset("utf8");
-                
-                // بررسی اتصال
-                if ($conn->connect_error) {
-                    throw new Exception("Connection failed: " . $conn->connect_error);
-                }
-                
-                // تبدیل آرایه گزینه‌ها به رشته
-                $optionsString = !empty($formData['options']) ? implode(', ', $formData['options']) : '';
-                
-                // تاریخ ثبت
-                $orderDate = date('Y-m-d H:i:s');
-                
-                // آماده‌سازی کوئری
-                $sql = "INSERT INTO orders (fullname, gender, product_type, product_name, quantity, payment_method, options, description, personal_photo, order_date)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssssisssss", 
-                    $formData['fullname'],
-                    $formData['gender'],
-                    $formData['productType'],
-                    $formData['productName'],
-                    $formData['quantity'],
-                    $formData['paymentMethod'],
-                    $optionsString,
-                    $formData['description'] ?? '',
-                    $formData['personalPhoto'] ?? '',
-                    $orderDate
-                );
-                
-                // اجرای کوئری
-                if ($stmt->execute()) {
-                    $success = true;
-                    $successMessage = "سفارش شما با موفقیت ثبت شد! کد پیگیری: " . $conn->insert_id;
-                    
-                    // پاک کردن داده‌های فرم
-                    $formData = [];
-                } else {
-                    $errors['database'] = "خطا در ثبت اطلاعات در دیتابیس: " . $stmt->error;
-                }
-                
-                $stmt->close();
-                $conn->close();
-                
-            } catch (Exception $e) {
-                $errors['database'] = "خطا در اتصال به دیتابیس: " . $e->getMessage();
-            }
+            $success = true;
+            $successMessage = "ثبت سفارش با موفقیت انجام شد!";
+            $formData = [];
         }
     }
     ?>
 
-    <!-- نمایش پیام موفقیت -->
     <?php if ($success): ?>
         <div class="message success">
             <?php echo $successMessage; ?>
-        </div>
-    <?php endif; ?>
-
-    <!-- نمایش خطاهای عمومی -->
-    <?php if (isset($errors['database'])): ?>
-        <div class="message error">
-            <?php echo $errors['database']; ?>
         </div>
     <?php endif; ?>
 
@@ -617,7 +507,6 @@
                     <i class="bi bi-cart4 icons-register"></i>
                     
                     <form action="" method="POST" enctype="multipart/form-data">
-                        <!-- نام و نام خانوادگی -->
                         <div class="form-group">
                             <input type="text" class="form-input" id="fullname" name="fullname" 
                                    placeholder="... نام و نام خانوادگی را وارد کنید" 
@@ -629,7 +518,6 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- جنسیت -->
                         <div class="form-group">
                             <div class="radio-group">
                                 <div class="radio-option">
@@ -649,7 +537,6 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- نوع محصول -->
                         <div class="form-group">
                             <div class="radio-group">
                                 <div class="radio-option">
@@ -669,7 +556,6 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- نام محصول -->
                         <div class="form-group">
                             <input type="text" class="form-input" id="productName" name="productName" 
                                    placeholder="... نام محصول را وارد کنید"
@@ -681,10 +567,9 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- تعداد -->
                         <div class="form-group">
                             <input type="number" class="form-input" id="quantity" name="quantity" 
-                                   placeholder="... تعداد را وارد نمایید" min="1" max="1000"
+                                   placeholder="... تعداد را وارد نمایید" min="1"
                                    value="<?php echo $formData['quantity'] ?? ''; ?>"
                                    required>
                             <label class="form-label">:تعداد</label>
@@ -693,48 +578,36 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- گزینه های اضافی -->
                         <div class="form-group">
                             <div class="checkbox-group">
-                                <?php
-                                $allOptions = [
-                                    'گارانتی' => 'گارانتی اضافه',
-                                    'نصب و راه اندازی' => 'نصب و راه اندازی',
-                                    'تحویل رایگان' => 'تحویل رایگان',
-                                    'پشتیبانی فنی' => 'پشتیبانی فنی'
-                                ];
-                                
-                                foreach ($allOptions as $value => $label):
-                                    $checked = in_array($value, $formData['options'] ?? []) ? 'checked' : '';
-                                ?>
-                                    <div class="checkbox-option">
-                                        <input type="checkbox" id="<?php echo $value; ?>" name="options[]" 
-                                               value="<?php echo $value; ?>" <?php echo $checked; ?>>
-                                        <label for="<?php echo $value; ?>"><?php echo $label; ?></label>
-                                    </div>
-                                <?php endforeach; ?>
+                                <div class="checkbox-option">
+                                    <input type="checkbox" id="warranty" name="options[]" value="گارانتی" <?php echo in_array('گارانتی', $formData['options'] ?? []) ? 'checked' : ''; ?>>
+                                    <label for="warranty">گارانتی اضافه</label>
+                                </div>
+                                <div class="checkbox-option">
+                                    <input type="checkbox" id="installation" name="options[]" value="نصب و راه اندازی" <?php echo in_array('نصب و راه اندازی', $formData['options'] ?? []) ? 'checked' : ''; ?>>
+                                    <label for="installation">نصب و راه اندازی</label>
+                                </div>
+                                <div class="checkbox-option">
+                                    <input type="checkbox" id="delivery" name="options[]" value="تحویل رایگان" <?php echo in_array('تحویل رایگان', $formData['options'] ?? []) ? 'checked' : ''; ?>>
+                                    <label for="delivery">تحویل رایگان</label>
+                                </div>
+                                <div class="checkbox-option">
+                                    <input type="checkbox" id="support" name="options[]" value="پشتیبانی فنی" <?php echo in_array('پشتیبانی فنی', $formData['options'] ?? []) ? 'checked' : ''; ?>>
+                                    <label for="support">پشتیبانی فنی</label>
+                                </div>
                             </div>
                             <label class="form-label">:گزینه های اضافی</label>
                         </div>
                         
-                        <!-- روش پرداخت -->
                         <div class="form-group">
                             <select class="select-box" id="paymentMethod" name="paymentMethod" required>
                                 <option value="" disabled <?php echo empty($formData['paymentMethod']) ? 'selected' : ''; ?>>... روش پرداخت را انتخاب کنید</option>
-                                <?php
-                                $paymentMethods = [
-                                    'نقدی' => 'پرداخت نقدی',
-                                    'کارتخوان' => 'پرداخت با کارتخوان',
-                                    'آنلاین' => 'پرداخت آنلاین',
-                                    'چکی' => 'پرداخت چکی',
-                                    'اقساطی' => 'پرداخت اقساطی'
-                                ];
-                                
-                                foreach ($paymentMethods as $value => $text):
-                                    $selected = ($formData['paymentMethod'] ?? '') == $value ? 'selected' : '';
-                                ?>
-                                    <option value="<?php echo $value; ?>" <?php echo $selected; ?>><?php echo $text; ?></option>
-                                <?php endforeach; ?>
+                                <option value="نقدی" <?php echo ($formData['paymentMethod'] ?? '') == 'نقدی' ? 'selected' : ''; ?>>پرداخت نقدی</option>
+                                <option value="کارتخوان" <?php echo ($formData['paymentMethod'] ?? '') == 'کارتخوان' ? 'selected' : ''; ?>>پرداخت با کارتخوان</option>
+                                <option value="آنلاین" <?php echo ($formData['paymentMethod'] ?? '') == 'آنلاین' ? 'selected' : ''; ?>>پرداخت آنلاین</option>
+                                <option value="چکی" <?php echo ($formData['paymentMethod'] ?? '') == 'چکی' ? 'selected' : ''; ?>>پرداخت چکی</option>
+                                <option value="اقساطی" <?php echo ($formData['paymentMethod'] ?? '') == 'اقساطی' ? 'selected' : ''; ?>>پرداخت اقساطی</option>
                             </select>
                             <label class="form-label">:روش پرداخت</label>
                             <?php if (isset($errors['paymentMethod'])): ?>
@@ -742,18 +615,13 @@
                             <?php endif; ?>
                         </div>
                         
-                        <!-- توضیحات -->
                         <div class="form-group">
                             <textarea class="form-input" id="description" name="description" 
                                       placeholder="... توضیحات اضافی (اختیاری)" 
                                       rows="3" style="width: 200px; height: 100px;"><?php echo htmlspecialchars($formData['description'] ?? ''); ?></textarea>
                             <label class="form-label">:توضیحات</label>
-                            <?php if (isset($errors['description'])): ?>
-                                <div class="error-message" style="width: 200px;"><?php echo $errors['description']; ?></div>
-                            <?php endif; ?>
                         </div>
                         
-                        <!-- عکس پرسنلی -->
                         <div class="form-group">
                             <div style="width: 200px;">
                                 <input type="file" class="file-input" id="personalPhoto" name="personalPhoto" 
@@ -766,7 +634,6 @@
                             <label class="form-label">:عکس پرسنلی (اختیاری)</label>
                         </div>
                         
-                        <!-- دکمه ها -->
                         <div class="buttons-container">
                             <button type="submit" class="btn-submit">ثبت سفارش</button>
                             <button type="reset" class="btn-reset">بازنشانی فرم</button>
