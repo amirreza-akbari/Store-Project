@@ -1,28 +1,26 @@
-INSERT INTO Artist (ArtistName, ArtistFamily, BirthYear, Nationality, PhoneNumber) VALUES
-(N'کمال', N'الملک', 1847, N'ایرانی', N'09120000001'),
-(N'احمد', N'عبادی', 1907, N'ایرانی', N'09120000002'),
-(N'محمد', N'احصایی', 1939, N'ایرانی', N'09120000003'),
-(N'فرشید', N'مثقالی', 1945, N'ایرانی', N'09120000004'),
-(N'نیما', N'اکبرزاده', 1978, N'ایرانی', N'09120000005');
+-- نمایش همه هنرمندان
+SELECT * FROM Artist;
 
-INSERT INTO Artifact (Name, CreationDate, Type, ArtistID) VALUES
-(N'ساعت سلطنتی', '1890-01-01', N'نقاشی', 1),
-(N'سه‌تار کلاسیک', '1935-01-01', N'ساز موسیقی', 2),
-(N'خط نستعلیق', '1965-01-01', N'خوشنویسی', 3),
-(N'پوستر انقلاب', '1979-01-01', N'گرافیک', 4),
-(N'مجسمه آزادی', '2005-01-01', N'مجسمه', 5);
+-- نمایش نام و ملیت هنرمندان
+SELECT ArtistName, ArtistFamily, Nationality FROM Artist;
 
-INSERT INTO Exhibition (ExhibitionTitle, StartDate, EndDate) VALUES
-(N'نمایشگاه کمال‌الملک', '2025-01-01', '2025-02-01'),
-(N'موسیقی اصیل ایرانی', '2025-03-01', '2025-04-01'),
-(N'خوشنویسی معاصر', '2025-05-01', '2025-06-01'),
-(N'گرافیک انقلاب', '2025-07-01', '2025-08-01'),
-(N'مجسمه‌های نوین ایران', '2025-09-01', '2025-10-01');
+-- نمایش هنرمندان ایرانی متولد بعد از 1900
+SELECT * FROM Artist
+WHERE BirthYear > 1900 AND Nationality = N'ایرانی';
 
-INSERT INTO Visitor (VisitorName, BirthDate, Email, Phone) VALUES
-(N'علی رضایی', '1985-03-12', N'ali.rezaei@example.com', N'09121234567'),
-(N'زهرا احمدی', '1990-07-22', N'zahra.ahmadi@example.com', N'09123456789'),
-(N'حسین کریمی', '1978-11-05', N'hosein.karimi@example.com', N'09129876543'),
-(N'مریم فتحی', '1995-01-18', N'maryam.fathi@example.com', N'09127654321'),
-(N'سینا کاظمی', '1982-06-30', N'sina.kazemi@example.com', N'09126543210');
+-- تغییر شماره تلفن هنرمند با شناسه 1
+UPDATE Artist
+SET PhoneNumber = N'09129999999'
+WHERE ArtistID = 1;
 
+-- تغییر ملیت هنرمند نیما اکبرزاده
+UPDATE Artist
+SET Nationality = N'ایرانی-آمریکایی'
+WHERE ArtistName = N'نیما' AND ArtistFamily = N'اکبرزاده';
+-- حذف هنرمند با شناسه 5
+DELETE FROM Artist
+WHERE ArtistID = 5;
+
+-- حذف هنرمندان متولد قبل از 1900
+DELETE FROM Artist
+WHERE BirthYear < 1900;
