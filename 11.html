@@ -9,7 +9,9 @@ GO
 ----------------------------------------
 CREATE TABLE Artist (
     ArtistID INT IDENTITY(1,1) PRIMARY KEY,
-    ArtistName NVARCHAR(100) NOT NULL
+    ArtistName NVARCHAR(100) NOT NULL,
+    BirthYear INT NULL,
+    Nationality NVARCHAR(80) NULL
 );
 
 ----------------------------------------
@@ -19,6 +21,7 @@ CREATE TABLE Artifact (
     ArtifactID INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(150) NOT NULL,
     CreationDate DATE NULL,
+    Type NVARCHAR(100) NULL,
     ArtistID INT NOT NULL,
     FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID)
 );
@@ -28,7 +31,9 @@ CREATE TABLE Artifact (
 ----------------------------------------
 CREATE TABLE Exhibition (
     ExhibitionID INT IDENTITY(1,1) PRIMARY KEY,
-    ExhibitionTitle NVARCHAR(150) NOT NULL
+    ExhibitionTitle NVARCHAR(150) NOT NULL,
+    StartDate DATE NULL,
+    EndDate DATE NULL
 );
 
 ----------------------------------------
