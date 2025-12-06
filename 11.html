@@ -46,3 +46,17 @@ CREATE TABLE ArtifactExhibition (
     FOREIGN KEY (ArtifactID) REFERENCES Artifact(ArtifactID),
     FOREIGN KEY (ExhibitionID) REFERENCES Exhibition(ExhibitionID)
 );
+
+
+
+
+
+
+CREATE TABLE Visitor (
+    VisitorID INT IDENTITY(1,1) PRIMARY KEY,    -- شناسه منحصر به فرد بازدیدکننده
+    VisitorName NVARCHAR(100) NOT NULL,         -- نام بازدیدکننده
+    BirthDate DATE NULL,                         -- تاریخ تولد
+    Email NVARCHAR(150) NULL,                    -- ایمیل
+    Phone NVARCHAR(20) NULL,                     -- شماره تماس
+    MembershipID NVARCHAR(50) NULL              -- شماره عضویت (اختیاری)
+);
