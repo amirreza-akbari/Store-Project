@@ -1,62 +1,27 @@
--- ایجاد پایگاه داده
-CREATE DATABASE MuseumDB;
-GO
-USE MuseumDB;
-GO
+INSERT INTO Artist (ArtistName, BirthYear, Nationality) VALUES
+(N'کمال‌الملک', 1847, N'ایرانی'),
+(N'احمد عبادی', 1907, N'ایرانی'),
+(N'محمد احصایی', 1939, N'ایرانی'),
+(N'فرشید مثقالی', 1945, N'ایرانی'),
+(N'نیما اکبرزاده', 1978, N'ایرانی');
 
-----------------------------------------
--- جدول هنرمندان (Artist)
-----------------------------------------
-CREATE TABLE Artist (
-    ArtistID INT IDENTITY(1,1) PRIMARY KEY,
-    ArtistName NVARCHAR(100) NOT NULL,
-    BirthYear INT NULL,
-    Nationality NVARCHAR(80) NULL
-);
+INSERT INTO Artifact (Name, CreationDate, Type, ArtistID) VALUES
+(N'ساعت سلطنتی', '1890-01-01', N'نقاشی', 1),
+(N'سه‌تار کلاسیک', '1935-01-01', N'ساز موسیقی', 2),
+(N'خط نستعلیق', '1965-01-01', N'خوشنویسی', 3),
+(N'پوستر انقلاب', '1979-01-01', N'گرافیک', 4),
+(N'مجسمه آزادی', '2005-01-01', N'مجسمه', 5);
 
-----------------------------------------
--- جدول آثار (Artifact)
-----------------------------------------
-CREATE TABLE Artifact (
-    ArtifactID INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(150) NOT NULL,
-    CreationDate DATE NULL,
-    Type NVARCHAR(100) NULL,
-    ArtistID INT NOT NULL,
-    FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID)
-);
+INSERT INTO Exhibition (ExhibitionTitle, StartDate, EndDate) VALUES
+(N'نمایشگاه کمال‌الملک', '2025-01-01', '2025-02-01'),
+(N'موسیقی اصیل ایرانی', '2025-03-01', '2025-04-01'),
+(N'خوشنویسی معاصر', '2025-05-01', '2025-06-01'),
+(N'گرافیک انقلاب', '2025-07-01', '2025-08-01'),
+(N'مجسمه‌های نوین ایران', '2025-09-01', '2025-10-01');
 
-----------------------------------------
--- جدول نمایشگاه‌ها (Exhibition)
-----------------------------------------
-CREATE TABLE Exhibition (
-    ExhibitionID INT IDENTITY(1,1) PRIMARY KEY,
-    ExhibitionTitle NVARCHAR(150) NOT NULL,
-    StartDate DATE NULL,
-    EndDate DATE NULL
-);
-
-----------------------------------------
--- جدول واسط آثار ↔ نمایشگاه‌ها (M:N)
-----------------------------------------
-CREATE TABLE ArtifactExhibition (
-    ArtifactID INT NOT NULL,
-    ExhibitionID INT NOT NULL,
-    PRIMARY KEY (ArtifactID, ExhibitionID),
-    FOREIGN KEY (ArtifactID) REFERENCES Artifact(ArtifactID),
-    FOREIGN KEY (ExhibitionID) REFERENCES Exhibition(ExhibitionID)
-);
-
-
-
-
-
-
-CREATE TABLE Visitor (
-    VisitorID INT IDENTITY(1,1) PRIMARY KEY,    -- شناسه منحصر به فرد بازدیدکننده
-    VisitorName NVARCHAR(100) NOT NULL,         -- نام بازدیدکننده
-    BirthDate DATE NULL,                         -- تاریخ تولد
-    Email NVARCHAR(150) NULL,                    -- ایمیل
-    Phone NVARCHAR(20) NULL,                     -- شماره تماس
-    MembershipID NVARCHAR(50) NULL              -- شماره عضویت (اختیاری)
-);
+INSERT INTO Visitor (VisitorName, BirthDate, Email, Phone, MembershipID) VALUES
+(N'علی رضایی', '1985-03-12', N'ali.rezaei@example.com', N'09121234567', N'M123'),
+(N'زهرا احمدی', '1990-07-22', N'zahra.ahmadi@example.com', N'09123456789', N'M124'),
+(N'حسین کریمی', '1978-11-05', N'hosein.karimi@example.com', N'09129876543', N'M125'),
+(N'مریم فتحی', '1995-01-18', N'maryam.fathi@example.com', N'09127654321', N'M126'),
+(N'سینا کاظمی', '1982-06-30', N'sina.kazemi@example.com', N'09126543210', N'M127');
