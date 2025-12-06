@@ -1,9 +1,9 @@
-INSERT INTO Artist (ArtistName, BirthYear, Nationality) VALUES
-(N'کمال‌الملک', 1847, N'ایرانی'),
-(N'احمد عبادی', 1907, N'ایرانی'),
-(N'محمد احصایی', 1939, N'ایرانی'),
-(N'فرشید مثقالی', 1945, N'ایرانی'),
-(N'نیما اکبرزاده', 1978, N'ایرانی');
+INSERT INTO Artist (ArtistName, ArtistFamily, BirthYear, Nationality, PhoneNumber) VALUES
+(N'کمال', N'الملک', 1847, N'ایرانی', N'09120000001'),
+(N'احمد', N'عبادی', 1907, N'ایرانی', N'09120000002'),
+(N'محمد', N'احصایی', 1939, N'ایرانی', N'09120000003'),
+(N'فرشید', N'مثقالی', 1945, N'ایرانی', N'09120000004'),
+(N'نیما', N'اکبرزاده', 1978, N'ایرانی', N'09120000005');
 
 INSERT INTO Artifact (Name, CreationDate, Type, ArtistID) VALUES
 (N'ساعت سلطنتی', '1890-01-01', N'نقاشی', 1),
@@ -19,9 +19,10 @@ INSERT INTO Exhibition (ExhibitionTitle, StartDate, EndDate) VALUES
 (N'گرافیک انقلاب', '2025-07-01', '2025-08-01'),
 (N'مجسمه‌های نوین ایران', '2025-09-01', '2025-10-01');
 
-INSERT INTO Visitor (VisitorName, BirthDate, Email, Phone, MembershipID) VALUES
-(N'علی رضایی', '1985-03-12', N'ali.rezaei@example.com', N'09121234567', N'M123'),
-(N'زهرا احمدی', '1990-07-22', N'zahra.ahmadi@example.com', N'09123456789', N'M124'),
-(N'حسین کریمی', '1978-11-05', N'hosein.karimi@example.com', N'09129876543', N'M125'),
-(N'مریم فتحی', '1995-01-18', N'maryam.fathi@example.com', N'09127654321', N'M126'),
-(N'سینا کاظمی', '1982-06-30', N'sina.kazemi@example.com', N'09126543210', N'M127');
+INSERT INTO Visitor (VisitorName, BirthDate, Email, Phone) VALUES
+(N'علی رضایی', '1985-03-12', N'ali.rezaei@example.com', N'09121234567'),
+(N'زهرا احمدی', '1990-07-22', N'zahra.ahmadi@example.com', N'09123456789'),
+(N'حسین کریمی', '1978-11-05', N'hosein.karimi@example.com', N'09129876543'),
+(N'مریم فتحی', '1995-01-18', N'maryam.fathi@example.com', N'09127654321'),
+(N'سینا کاظمی', '1982-06-30', N'sina.kazemi@example.com', N'09126543210');
+
