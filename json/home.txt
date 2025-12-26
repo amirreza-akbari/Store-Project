@@ -1,0 +1,132 @@
+package com.mrbackend.admin;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+// کلاس فعالیت صفحه اصلی که لیست کاربران را نمایش می‌دهد
+public class HomeActivity extends AppCompatActivity {
+
+    // تعریف متغیرهای مربوط به RecyclerView، آداپتور و لیست کاربران
+    private RecyclerView recyclerUsers;
+    private UserAdapter adapter;
+    private ArrayList<User> users = new ArrayList<>();
+    private Button btnAddUser;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // تنظیم لایه XML مربوط به این فعالیت
+        setContentView(R.layout.activity_home);
+
+        // اتصال متغیرها به المان‌های موجود در لایه
+        recyclerUsers = findViewById(R.id.recyclerUsers);
+        btnAddUser = findViewById(R.id.aad);
+
+        // تنظیم LayoutManager برای RecyclerView (مدل خطی عمودی)
+        recyclerUsers.setLayoutManager(new LinearLayoutManager(this));
+        // ایجاد آداپتور و اتصال آن به RecyclerView
+        adapter = new UserAdapter(this, users);
+        recyclerUsers.setAdapter(adapter);
+
+        // تنظیم شنونده کلیک برای دکمه افزودن کاربر جدید
+        btnAddUser.setOnClickListener(v -> {
+            // رفتن به صفحه افزودن/ویرایش کاربر
+            startActivity(new Intent(HomeActivity.this, AddEditUserActivity.class));
+        });
+
+        // بارگذاری اولیه لیست کاربران از سرور
+        loadUsers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // بارگذاری مجدد کاربران هر بار که کاربر به این صفحه بازمی‌گردد
+        loadUsers();
+    }
+
+    // تابع بارگذاری لیست کاربران از سرور
+    private void loadUsers() {
+        // ایجاد یک رشته جدید برای انجام عملیات شبکه
+        new Thread(() -> {
+            try {
+                // ایجاد آدرس URL برای دریافت کاربران
+                URL url = new URL("https://b.mrbackend.ir/api-admin/get_users.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                // دریافت جریان ورودی از اتصال
+                InputStream is = conn.getInputStream();
+                // ایجاد StringBuilder برای جمع‌آوری پاسخ
+                StringBuilder sb = new StringBuilder();
+                int b;
+                // خواندن داده‌ها از جریان ورودی تا انتها
+                while((b = is.read()) != -1) sb.append((char)b);
+                String response = sb.toString();
+
+                // تبدیل پاسخ به شیء JSON
+                JSONObject json = new JSONObject(response);
+                // بررسی وضعیت موفقیت‌آمیز بودن پاسخ
+                if(json.getString("status").equals("success")){
+                    // دریافت آرایه کاربران از پاسخ JSON
+                    JSONArray arr = json.getJSONArray("users");
+                    // پاک کردن لیست موجود
+                    users.clear();
+                    // پیمایش آرایه کاربران و اضافه کردن به لیست
+                    for(int i = 0; i < arr.length(); i++){
+                        JSONObject u = arr.getJSONObject(i);
+                        users.add(new User(
+                                u.getInt("id"),          // شناسه کاربر
+                                u.getString("name"),     // نام
+                                u.getString("surname"),  // نام خانوادگی
+                                u.getString("email"),    // ایمیل
+                                u.getString("score"),    // امتیاز
+                                u.getString("created_at") // تاریخ ایجاد
+                        ));
+                    }
+                    // به‌روزرسانی RecyclerView در رشته اصلی UI
+                    runOnUiThread(() -> adapter.notifyDataSetChanged());
+                } else {
+                    // نمایش پیام خطا در صورت عدم موفقیت
+                    runOnUiThread(() -> Toast.makeText(this, "خطا در دریافت کاربران", Toast.LENGTH_SHORT).show());
+                }
+
+            } catch (Exception e){
+                // چاپ خطا در کنسول برای دیباگ
+                e.printStackTrace();
+            }
+        }).start();  // شروع رشته جدید
+    }
+
+    // تابع حذف کاربر با شناسه مشخص
+    public void deleteUser(int id){
+        // ایجاد رشته جدید برای عملیات حذف
+        new Thread(() -> {
+            try {
+                // ایجاد آدرس URL برای حذف کاربر
+                URL url = new URL("https://b.mrbackend.ir/api-admin/delete_user.php?id=" + id);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                // ارسال درخواست (اتصال به سرور)
+                conn.getInputStream();
+                // بازگشت به رشته اصلی UI پس از حذف موفق
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "کاربر حذف شد", Toast.LENGTH_SHORT).show();
+                    // بارگذاری مجدد لیست کاربران برای نمایش به‌روزرسانی شده
+                    loadUsers();
+                });
+            } catch (Exception e){
+                // چاپ خطا در کنسول برای دیباگ
+                e.printStackTrace();
+            }
+        }).start();  // شروع رشته جدید
+    }
+}

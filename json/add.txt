@@ -1,0 +1,127 @@
+package com.mrbackend.admin;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+// کلاس فعالیت افزودن/ویرایش کاربر
+public class AddEditUserActivity extends AppCompatActivity {
+
+    // تعریف فیلدهای ورودی و دکمه ذخیره
+    EditText edtName, edtSurname, edtEmail, edtPassword, edtScore;
+    Button btnSave;
+    // شناسه کاربر - مقدار -1 نشان‌دهنده حالت افزودن کاربر جدید است
+    int userId = -1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // تنظیم لایه XML مربوط به این فعالیت
+        setContentView(R.layout.activity_add_edit_user);
+
+        // اتصال متغیرها به المان‌های موجود در لایه
+        edtName = findViewById(R.id.edtName);
+        edtSurname = findViewById(R.id.edtSurname);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtScore = findViewById(R.id.edtScore);
+        btnSave = findViewById(R.id.btnSave);
+
+        // بررسی آیا Intent حاوی اطلاعات کاربر برای ویرایش است
+        if (getIntent().hasExtra("id")) {
+            // دریافت اطلاعات کاربر از Intent
+            userId = getIntent().getIntExtra("id", -1);
+            edtName.setText(getIntent().getStringExtra("name"));
+            edtSurname.setText(getIntent().getStringExtra("surname"));
+            edtEmail.setText(getIntent().getStringExtra("email"));
+            edtScore.setText(getIntent().getStringExtra("score"));
+        }
+
+        // تنظیم شنونده کلیک برای دکمه ذخیره
+        btnSave.setOnClickListener(v -> saveUser());
+    }
+
+    // تابع ذخیره اطلاعات کاربر
+    private void saveUser() {
+        // دریافت و پاکسازی مقادیر از فیلدهای ورودی
+        String name = edtName.getText().toString().trim();
+        String surname = edtSurname.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String score = edtScore.getText().toString().trim();
+
+        // اعتبارسنجی که تمام فیلدها پر شده باشند
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || score.isEmpty()) {
+            Toast.makeText(this, "تمام فیلدها را پر کنید", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ایجاد یک رشته جدید برای انجام عملیات شبکه
+        new Thread(() -> {
+            try {
+                // کدگذاری مقادیر برای ارسال ایمن در URL (پیشگیری از مشکلات کاراکترهای خاص)
+                String n = URLEncoder.encode(name, "UTF-8");
+                String s = URLEncoder.encode(surname, "UTF-8");
+                String e = URLEncoder.encode(email, "UTF-8");
+                String p = URLEncoder.encode(password, "UTF-8");
+
+                // تعریف متغیرهای API
+                String userApi;
+                String scoreApi;
+
+                // بررسی حالت: افزودن کاربر جدید یا ویرایش کاربر موجود
+                if (userId == -1) {
+                    // ساخت URL برای درج کاربر جدید
+                    userApi =
+                            "https://b.mrbackend.ir/api-admin/insert_user.php" +
+                                    "?name=" + n +
+                                    "&surname=" + s +
+                                    "&email=" + e +
+                                    "&password=" + p;
+                } else {
+                    // ساخت URL برای به‌روزرسانی کاربر موجود
+                    userApi =
+                            "https://b.mrbackend.ir/api-admin/update_user.php" +
+                                    "?id=" + userId +
+                                    "&name=" + n +
+                                    "&surname=" + s +
+                                    "&email=" + e +
+                                    "&password=" + p;
+                }
+
+                // ساخت URL برای ذخیره نمره کاربر (همیشه درج می‌شود)
+                scoreApi =
+                        "https://b.mrbackend.ir/api-admin/insert_score.php" +
+                                "?name=" + n +
+                                "&surname=" + s +
+                                "&email=" + e +
+                                "&score=" + score;
+
+                // ارسال درخواست اول: ذخیره/به‌روزرسانی کاربر
+                HttpURLConnection conn1 = (HttpURLConnection) new URL(userApi).openConnection();
+                conn1.getInputStream();
+
+                // ارسال درخواست دوم: ذخیره نمره
+                HttpURLConnection conn2 = (HttpURLConnection) new URL(scoreApi).openConnection();
+                conn2.getInputStream();
+
+                // بازگشت به رشته اصلی UI پس از موفقیت
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "کاربر و نمره با موفقیت ذخیره شدند", Toast.LENGTH_SHORT).show();
+                    finish(); // بستن این فعالیت و بازگشت به صفحه قبل
+                });
+
+            } catch (Exception ex) {
+                // چاپ خطا در کنسول برای دیباگ
+                ex.printStackTrace();
+            }
+        }).start(); // شروع رشته جدید
+    }
+}

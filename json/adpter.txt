@@ -1,0 +1,96 @@
+package com.mrbackend.admin;
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+
+// آداپتور RecyclerView برای نمایش لیست کاربران
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+
+    // لیست کاربران و کانتکست (بستر اجرا)
+    private List<User> userList;
+    private Context context;
+
+    // سازنده آداپتور
+    public UserAdapter(Context context, List<User> users){
+        this.context = context;
+        this.userList = users;
+    }
+
+    // متد ایجاد ViewHolder جدید
+    @NonNull
+    @Override
+    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // اینفلیت کردن لایه item_user.xml برای هر آیتم
+        View view = LayoutInflater.from(context).inflate(R.layout.item_user, parent, false);
+        return new UserViewHolder(view);
+    }
+
+    // متد اتصال داده‌ها به ViewHolder در موقعیت مشخص
+    @Override
+    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+        // دریافت کاربر در موقعیت مشخص
+        User user = userList.get(position);
+
+        // تنظیم مقادیر متون TextView‌ها با اطلاعات کاربر
+        holder.txtName.setText(user.name + " " + user.surname); // نام و نام خانوادگی
+        holder.txtEmail.setText("ایمیل: " + user.email); // ایمیل
+        holder.txtScore.setText("امتیاز: " + user.score); // امتیاز
+        holder.txtCreatedAt.setText("ثبت شده در: " + user.created_at); // تاریخ ثبت
+
+        // تنظیم شنونده کلیک برای دکمه ویرایش
+        holder.btnEdit.setOnClickListener(v -> {
+            // ایجاد Intent برای رفتن به صفحه ویرایش کاربر
+            Intent i = new Intent(context, AddEditUserActivity.class);
+            // ارسال اطلاعات کاربر به Intent
+            i.putExtra("id", user.id);
+            i.putExtra("name", user.name);
+            i.putExtra("surname", user.surname);
+            i.putExtra("email", user.email);
+            i.putExtra("score", user.score);
+            // شروع فعالیت ویرایش
+            context.startActivity(i);
+        });
+
+        // تنظیم شنونده کلیک برای دکمه حذف
+        holder.btnDelete.setOnClickListener(v -> {
+            // بررسی اینکه context از نوع HomeActivity است
+            if (context instanceof HomeActivity) {
+                // فراخوانی متد deleteUser از HomeActivity
+                ((HomeActivity) context).deleteUser(user.id);
+            }
+        });
+    }
+
+    // متد بازگشت تعداد آیتم‌ها در لیست
+    @Override
+    public int getItemCount() {
+        return userList.size();
+    }
+
+    // کلاس داخلی ViewHolder برای نگهداری از ویوهای هر آیتم
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+        // تعریف ویوهای موجود در هر آیتم
+        TextView txtName, txtEmail, txtScore, txtCreatedAt;
+        Button btnEdit, btnDelete;
+
+        // سازنده ViewHolder
+        public UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+            // اتصال متغیرها به المان‌های موجود در لایه item_user.xml
+            txtName = itemView.findViewById(R.id.txtName);
+            txtEmail = itemView.findViewById(R.id.txtEmail);
+            txtScore = itemView.findViewById(R.id.txtScore);
+            txtCreatedAt = itemView.findViewById(R.id.txtCreatedAt);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+        }
+    }
+}

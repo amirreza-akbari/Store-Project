@@ -1,0 +1,188 @@
+package com.mrbackend.admin;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.Executor;
+
+// کلاس اصلی فعالیت برنامه که ورود کاربر را مدیریت می‌کند
+public class MainActivity extends AppCompatActivity {
+
+    // تعریف متغیرهای مربوط به ایمیل و دکمه ارسال کد
+    EditText edtEmail;
+    Button btnSendOtp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // تنظیم لایه XML مربوط به این فعالیت
+        setContentView(R.layout.activity_main);
+
+        // اتصال متغیرها به المان‌های موجود در لایه
+        edtEmail = findViewById(R.id.edtEmail);
+        btnSendOtp = findViewById(R.id.btnSendOtp);
+
+        // غیرفعال کردن ورودی ایمیل و دکمه تا زمانی که اثر انگشت تأیید شود
+        edtEmail.setEnabled(false);
+        btnSendOtp.setEnabled(false);
+
+        // شروع فرآیند احراز هویت با اثر انگشت
+        startFingerprint();
+
+        // تنظیم شنونده کلیک برای دکمه ارسال کد تأیید
+        btnSendOtp.setOnClickListener(v -> {
+            // دریافت و حذف فاصله‌های اضافی از ایمیل وارد شده
+            String email = edtEmail.getText().toString().trim();
+            // بررسی خالی نبودن ایمیل
+            if (email.isEmpty()) {
+                Toast.makeText(this, "ایمیل را وارد کنید", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // ارسال کد تأیید به ایمیل وارد شده
+            sendOtp(email);
+        });
+    }
+
+    // تابع شروع احراز هویت با اثر انگشت
+    private void startFingerprint() {
+
+        // ایجاد مدیر بیومتریک برای بررسی سخت‌افزار اثر انگشت
+        BiometricManager biometricManager = BiometricManager.from(this);
+        // بررسی پشتیبانی دستگاه از اثر انگشت قوی
+        if (biometricManager.canAuthenticate(
+                BiometricManager.Authenticators.BIOMETRIC_STRONG)
+                != BiometricManager.BIOMETRIC_SUCCESS) {
+
+            // نمایش پیام خطا در صورت عدم پشتیبانی
+            Toast.makeText(this,
+                    "اثر انگشت فعال نیست",
+                    Toast.LENGTH_LONG).show();
+            // بستن برنامه
+            finish();
+            return;
+        }
+
+        // ایجاد اجراکننده برای مدیریت رشته‌های موازی
+        Executor executor = ContextCompat.getMainExecutor(this);
+
+        // ایجاد شیء BiometricPrompt برای مدیریت احراز هویت
+        BiometricPrompt biometricPrompt =
+                new BiometricPrompt(this, executor,
+                        new BiometricPrompt.AuthenticationCallback() {
+
+                            // تابعی که هنگام موفقیت‌آمیز بودن احراز هویت فراخوانی می‌شود
+                            @Override
+                            public void onAuthenticationSucceeded(
+                                    BiometricPrompt.AuthenticationResult result) {
+                                super.onAuthenticationSucceeded(result);
+
+                                // اجرای کد در رشته اصلی UI
+                                runOnUiThread(() -> {
+                                    Toast.makeText(MainActivity.this,
+                                            "احراز هویت موفق",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    // فعال کردن ورودی ایمیل و دکمه پس از تأیید اثر انگشت
+                                    edtEmail.setEnabled(true);
+                                    btnSendOtp.setEnabled(true);
+                                });
+                            }
+
+                            // تابعی که هنگام شکست احراز هویت فراخوانی می‌شود
+                            @Override
+                            public void onAuthenticationFailed() {
+                                super.onAuthenticationFailed();
+                                Toast.makeText(MainActivity.this,
+                                        "اثر انگشت نادرست",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            // تابعی که هنگام بروز خطا در احراز هویت فراخوانی می‌شود
+                            @Override
+                            public void onAuthenticationError(
+                                    int errorCode, CharSequence errString) {
+                                super.onAuthenticationError(errorCode, errString);
+                                // بستن برنامه در صورت خطا
+                                finish();
+                            }
+                        });
+
+        // ایجاد اطلاعات درخواست احراز هویت (Prompt)
+        BiometricPrompt.PromptInfo promptInfo =
+                new BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("ورود ایمن")  // عنوان درخواست
+                        .setSubtitle("لطفاً اثر انگشت خود را وارد کنید")  // زیرعنوان
+                        .setNegativeButtonText("خروج")  // متن دکمه منفی
+                        .build();
+
+        // شروع فرآیند احراز هویت
+        biometricPrompt.authenticate(promptInfo);
+    }
+
+    // تابع ارسال کد تأیید به سرور
+    private void sendOtp(String email) {
+        // ایجاد یک رشته جدید برای انجام عملیات شبکه
+        new Thread(() -> {
+            try {
+                // ایجاد آدرس URL سرور
+                URL url = new URL("https://b.mrbackend.ir/api/send_otp.php");
+                // ایجاد اتصال HTTP
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                // تنظیم متد درخواست به POST
+                conn.setRequestMethod("POST");
+                // اجازه ارسال داده در بدنه درخواست
+                conn.setDoOutput(true);
+
+                // ایجاد داده‌های فرم برای ارسال
+                String data = "email=" + email;
+                // دریافت جریان خروجی برای نوشتن داده‌ها
+                OutputStream os = conn.getOutputStream();
+                // نوشتن داده‌ها به جریان خروجی
+                os.write(data.getBytes());
+                // اطمینان از ارسال کامل داده‌ها
+                os.flush();
+                // بستن جریان خروجی
+                os.close();
+
+                // بررسی کد وضعیت پاسخ سرور
+                if (conn.getResponseCode() == 200) {
+                    // در صورت موفقیت، بازگشت به رشته اصلی UI
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "کد ارسال شد", Toast.LENGTH_SHORT).show();
+                        // ایجاد Intent برای رفتن به صفحه تأیید کد
+                        Intent intent =
+                                new Intent(MainActivity.this, VerifyOtpActivity.class);
+                        // ارسال ایمیل به فعالیت بعدی
+                        intent.putExtra("email", email);
+                        // شروع فعالیت جدید
+                        startActivity(intent);
+                    });
+                } else {
+                    // در صورت خطا از سمت سرور
+                    runOnUiThread(() ->
+                            Toast.makeText(this,
+                                    "خطا در ارسال کد",
+                                    Toast.LENGTH_SHORT).show());
+                }
+
+            } catch (Exception e) {
+                // در صورت بروز هر گونه استثناء
+                runOnUiThread(() ->
+                        Toast.makeText(this,
+                                "خطا: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
+            }
+        }).start();  // شروع رشته جدید
+    }
+}
