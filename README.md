@@ -46,3 +46,37 @@ cd alfa-computer-store
 Click the link below to view the live version of the project:
 👉 View Live on Vercel
 https://store-project-git-main-amirreza-akbaris-projects.vercel.app
+
+
+
+# learn   
+The magic of web programming😎
+🖥 تمرین جلسه آینده:  
+با برد آردوینو یک مدار متشکل از 4 عدد LED با 4 رنگ مختلف طراحی کنید و آن را طوری برنامه ریزی کنید که به ترتیب روشن/خاموش شوند. (فاصله زمانی بین روشن/خاموش شدن هر LED یک ثانیه و فاصله زمانی بین خاموش شدن هر LED تا بعدی صفر است.)
+
+
+
+
+
+
+
+
+
+https://dl.toolschi.com/up/fb6a5977aa14898e.zip
+
+
+
+
+
+
+
+AKfycbwmsbAW06GmSpz0VVZHGsaZKoHOs32g8kn_-EPF5yPCOf1YWWgOrVLAQbQDwNoCYdO8kg
+
+
+
+
+
+
+
+
+https://github.com/masterking32/MasterHttpRelayVPN/blob/python_testing/README_FA.md
