@@ -1,5 +1,5 @@
 # 🖥️ Alfa Computer | Online Tech Store   
-           
+           https://sub.speedur.org:2096/sub/djMsNjU3ODc1LDE3ODIwNTQyMDUc89fb36c87
 Welcome to **Alfa Computer**, where technology meets simplicity.  
 Your one-stop online store for **computer parts, accessories, and software** — fast, secure, and modern. 🚀
 
