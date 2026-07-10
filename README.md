@@ -1,6 +1,6 @@
 # 🖥️ Alfa Computer | Online Tech Store   
 
-Welcome to **Alfa Computer**, where technology meets simplicity.  
+Welcome to **Alfa Computer**, where technology meets simplicity.   
 Your one-stop online store for **computer parts, accessories, and software** — fast, secure, and modern. 🚀
 
 ---
