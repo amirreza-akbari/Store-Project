@@ -66,7 +66,7 @@ This project is fully optimized for **Mobile WebView**! You can:
 - ✅ Secure data handling with PDO
 
 ---
-https://github.com/amirreza-akbari/Nini-Wa-01.git
+T1:25.5,H1:60,T2:26,H2:55,R1Aon,R2Moff,R3Ton,R4Aon,R5Moff,R6Ton,R7Aon,R8Moff
 ## 🚀 **Installation Guide**
 
 ### **Prerequisites**
